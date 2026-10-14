@@ -91,7 +91,10 @@ final class MenuBarSpacerManager: ObservableObject {
     }
 
     private func configureCancellables() {
+        // The first value is what `performSetup` just loaded and synced:
+        // writing it back would replace spacers that failed to decode with none.
         $spacers
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] spacers in
                 guard let self else {

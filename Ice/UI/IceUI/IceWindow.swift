@@ -66,7 +66,7 @@ struct IceWindow<Content: View>: Scene {
 
 // MARK: - WindowVisibilityGate
 
-/// Renders its content only while the enclosing window is on screen.
+/// Renders its content only while the enclosing window is ordered in.
 ///
 /// While the window is hidden (e.g. after being materialized early but not yet
 /// shown, or after being closed), the content is replaced with an empty view so
@@ -100,21 +100,14 @@ private struct WindowVisibilityGate<Content: View>: View {
             return
         }
 
-        func recompute() {
-            // An ordered-out or fully occluded window doesn't need its content
-            // laid out. `isVisible` is false while the window is ordered out.
-            isVisible = window.isVisible && window.occlusionState.contains(.visible)
-        }
-
+        // Ordered out only, not occluded: tearing the content down whenever
+        // another window covered Settings, or the user switched Spaces, threw
+        // away the panes' state (a profile name being typed, a move or spacing
+        // change in progress). AppKit already throttles drawing for occluded
+        // windows; it is ordered-out ones that kept laying out.
         window.publisher(for: \.isVisible)
-            .sink { _ in recompute() }
+            .sink { isVisible = $0 }
             .store(in: &cancellables)
-        NotificationCenter.default
-            .publisher(for: NSWindow.didChangeOcclusionStateNotification, object: window)
-            .sink { _ in recompute() }
-            .store(in: &cancellables)
-
-        recompute()
     }
 }
 

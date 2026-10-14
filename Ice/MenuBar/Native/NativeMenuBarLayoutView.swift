@@ -158,7 +158,7 @@ struct NativeMenuBarLayoutView: View {
     private func move(_ id: String, to section: MenuBarSection.Name) -> Bool {
         guard let item = manager.items.first(where: { $0.id == id }), manager.moveItem(id: id, to: section) else { return false }
         feedback = String(format: L("app.native.editor.moved"), manager.displayName(for: item), section.localized)
-        NSAccessibility.post(element: NSApp, notification: .announcementRequested, userInfo: [
+        NSAccessibility.post(element: NSApplication.shared, notification: .announcementRequested, userInfo: [
             .announcement: feedback,
             .priority: NSAccessibilityPriorityLevel.medium.rawValue,
         ])

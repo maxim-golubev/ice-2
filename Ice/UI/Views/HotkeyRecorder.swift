@@ -33,6 +33,11 @@ struct HotkeyRecorder<Label: View>: View {
                 model.isPresentingSystemReservedError = false
             }
         }
+        // Recording disables the hotkey until it stops; a recorder that goes
+        // away mid-recording (another pane, Settings closed) must re-enable it.
+        .onDisappear {
+            model.stopRecording()
+        }
     }
 
     @ViewBuilder

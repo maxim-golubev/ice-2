@@ -124,12 +124,24 @@ final class UpdatesManager {
     /// cover, and the two callbacks the old code hung off — clearing a delivered notification
     /// once the update got attention, and naming the version in the body — need parts of
     /// Sparkle's delegate that ``DragonUpdaterConfig`` does not expose.
+    ///
+    /// Asks for permission first, at no cost once granted or declined: scheduled checks may have
+    /// been turned on after launch, when ``performSetup(with:)`` last had the chance to ask.
     private static func notifyUpdateAvailable() {
         let content = UNMutableNotificationContent()
         content.title = L("app.updates.notification.title")
         content.body = String(format: L("app.updates.notification.body"), Constants.displayName)
-        UNUserNotificationCenter.current().add(
-            UNNotificationRequest(identifier: "UpdateCheck", content: content, trigger: nil)
-        )
+        let request = UNNotificationRequest(identifier: "UpdateCheck", content: content, trigger: nil)
+        Task {
+            let center = UNUserNotificationCenter.current()
+            do {
+                guard try await center.requestAuthorization(options: [.badge, .alert, .sound]) else {
+                    return
+                }
+                try await center.add(request)
+            } catch {
+                Logger.default.error("Failed to post the update notification: \(error)")
+            }
+        }
     }
 }
