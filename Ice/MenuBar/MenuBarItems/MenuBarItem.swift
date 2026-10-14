@@ -371,11 +371,11 @@ private extension MenuBarItemTag.Namespace {
         // Use the name of the owning process as a fallback. The non-localized
         // name seems less likely to change, so let's prefer it as a (somewhat)
         // stable identifier.
-        if let app = itemWindow.owningApplication {
-            self = .optional(app.bundleIdentifier ?? itemWindow.ownerName ?? app.localizedName)
-        } else {
-            self = .optional(itemWindow.ownerName)
-        }
+        self = .optional(
+            itemWindow.owningBundleIdentifier
+                ?? itemWindow.ownerName
+                ?? itemWindow.owningApplication?.localizedName
+        )
     }
 
     /// Creates a namespace without checks.

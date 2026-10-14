@@ -4,6 +4,7 @@
 //
 
 import Cocoa
+import os
 
 /// Information for a window.
 struct WindowInfo {
@@ -35,6 +36,24 @@ struct WindowInfo {
     var owningApplication: NSRunningApplication? {
         NSRunningApplication(processIdentifier: ownerPID)
     }
+
+    /// The bundle identifier of the application that owns the window.
+    ///
+    /// Remembered per process: `NSRunningApplication` now and then reports no
+    /// bundle identifier for an app that is running (seen for Control Center
+    /// while Ice was starting), and one missed lookup gave the same menu bar
+    /// item a second identity. A successful lookup always replaces the
+    /// remembered value, so a reused process identifier is corrected at once.
+    var owningBundleIdentifier: String? {
+        let pid = ownerPID
+        if let bundleIdentifier = owningApplication?.bundleIdentifier {
+            Self.bundleIdentifiers.withLock { $0[pid] = bundleIdentifier }
+            return bundleIdentifier
+        }
+        return Self.bundleIdentifiers.withLock { $0[pid] }
+    }
+
+    private static let bundleIdentifiers = OSAllocatedUnfairLock(initialState: [pid_t: String]())
 
     /// A Boolean value that indicates whether the window belongs to the
     /// window server.

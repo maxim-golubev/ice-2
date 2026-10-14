@@ -1071,6 +1071,24 @@ extension MenuBarItemManager {
     ) async throws -> (start: CGPoint, end: CGPoint) {
         let itemBounds = try await getCurrentBounds(for: item)
         let targetBounds = try await getCurrentBounds(for: destination.targetItem)
+        if #unavailable(macOS 26.0) {
+            // Before macOS 26 an item ignores a Command-drag that starts on
+            // the menu bar, so every move timed out. The mouse-down goes far
+            // off screen instead, which picks the item up (its window follows
+            // the pointer to the corner of the screen and its place stays open
+            // until the drop), and the mouse-up drops it on the target, a quarter of the way in from the
+            // side it should end up on, so it never lands on a boundary the
+            // target shares with its neighbour. An item dropped on the Ice
+            // icon always lands to its right, so for that target it aims just
+            // past the icon, onto the neighbour, which puts the item on the
+            // intended side.
+            let start = CGPoint(x: 20_000, y: 20_000)
+            let inset = destination.targetItem.tag == .visibleControlItem ? -4 : min(targetBounds.width / 4, 8)
+            return switch destination {
+            case .leftOfItem: (start, CGPoint(x: targetBounds.minX + inset, y: targetBounds.midY))
+            case .rightOfItem: (start, CGPoint(x: targetBounds.maxX - inset, y: targetBounds.midY))
+            }
+        }
         switch destination {
         case .leftOfItem:
             var start = CGPoint(x: targetBounds.minX, y: targetBounds.minY)
