@@ -60,7 +60,9 @@ final class AppState: ObservableObject {
         settings.performSetup(with: self)
         menuBarManager.performSetup(with: self)
 
-        if !NativeMenuBarManager.usesNativeBackend {
+        // Only macOS 26 needs the service: earlier systems report each item's
+        // own app as its window owner, and macOS 27 uses the native backend.
+        if #available(macOS 26.0, *), !NativeMenuBarManager.usesNativeBackend {
             await MenuBarItemService.Connection.shared.start()
         }
 

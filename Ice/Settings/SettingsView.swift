@@ -98,9 +98,7 @@ struct SettingsView: View {
         }
         .scrollDisabled(true)
         .toolbar(removing: .sidebarToggle)
-        .toolbar {
-            sidebarToolbarSpacer
-        }
+        .flexibleToolbarSpacer()
         .navigationSplitViewColumnWidth(sidebarWidth)
     }
 
@@ -117,15 +115,10 @@ struct SettingsView: View {
         .tag(identifier)
     }
 
-    @ToolbarContentBuilder
-    private var sidebarToolbarSpacer: some ToolbarContent {
-        ToolbarSpacer(.flexible)
-    }
-
     @ViewBuilder
     private var detailView: some View {
         settingsPane
-            .scrollEdgeEffectStyle(.hard, for: .top)
+            .hardScrollEdgeEffect(for: .top)
     }
 
     @ViewBuilder

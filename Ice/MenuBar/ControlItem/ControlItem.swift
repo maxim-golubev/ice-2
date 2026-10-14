@@ -704,7 +704,10 @@ enum ControlItemDefaults {
         if ControlItemDefaults[.visible, autosaveName] == nil {
             ControlItemDefaults[.visible, autosaveName] = true
         }
-        if ControlItemDefaults[.visibleCC, autosaveName] == nil {
+        if
+            #available(macOS 26.0, *),
+            ControlItemDefaults[.visibleCC, autosaveName] == nil
+        {
             ControlItemDefaults[.visibleCC, autosaveName] = true
         }
     }

@@ -203,7 +203,7 @@ private struct MenuBarSearchContentView: View {
     }
 
     private var bottomBarPadding: CGFloat {
-        7
+        if #available(macOS 26.0, *) { 7 } else { 5 }
     }
 
     private var promptText: Text {
@@ -430,7 +430,11 @@ private struct ShowItemButton: View {
     let action: () -> Void
 
     private var backgroundShape: some InsettableShape {
-        RoundedRectangle(cornerRadius: 5, style: .continuous)
+        if #available(macOS 26.0, *) {
+            RoundedRectangle(cornerRadius: 5, style: .continuous)
+        } else {
+            RoundedRectangle(cornerRadius: 3, style: .circular)
+        }
     }
 
     var body: some View {
@@ -477,7 +481,11 @@ private struct BottomBarButtonStyle: ButtonStyle {
     @State private var isHovering = false
 
     private var borderShape: some InsettableShape {
-        RoundedRectangle(cornerRadius: 8, style: .continuous)
+        if #available(macOS 26.0, *) {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+        } else {
+            RoundedRectangle(cornerRadius: 5, style: .circular)
+        }
     }
 
     func makeBody(configuration: Configuration) -> some View {
@@ -543,15 +551,19 @@ private struct MenuBarSearchItemView: View {
     }
 
     private var backgroundShape: some InsettableShape {
-        RoundedRectangle(cornerRadius: 7, style: .continuous)
+        if #available(macOS 26.0, *) {
+            RoundedRectangle(cornerRadius: 7, style: .continuous)
+        } else {
+            RoundedRectangle(cornerRadius: 5, style: .circular)
+        }
     }
 
     private var dimension: CGFloat {
-        26
+        if #available(macOS 26.0, *) { 26 } else { 24 }
     }
 
     private var padding: CGFloat {
-        6
+        if #available(macOS 26.0, *) { 6 } else { 8 }
     }
 
     var body: some View {

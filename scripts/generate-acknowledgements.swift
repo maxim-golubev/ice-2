@@ -4,7 +4,7 @@
 //  generate-acknowledgements.swift
 //
 //  Regenerates `Ice/Resources/Acknowledgements.rtf` and `.pdf` from the resolved
-//  Swift package graph.
+//  Swift package graph and the packages copied into `Packages/`.
 //
 //  The bundled notices were hand-maintained and drifted: they listed LaunchAtLogin
 //  years after it was dropped, and never gained DragonKit. Deriving the package list
@@ -61,14 +61,17 @@ struct ResolvedFile: Decodable {
     let pins: [Pin]
 }
 
-/// `Package.resolved` records repository names. Only DragonKit is known by a name
-/// other than its repository's, so the rest fall through unchanged.
-let displayNames = ["dragon-kit": "DragonKit"]
+/// The packages copied into `Packages/` instead of resolved, by directory name, with
+/// the repository each was copied from. Each directory keeps its own LICENSE.
+let vendoredOrigins = ["DragonKit": "https://github.com/teddychan/dragon-kit"]
+let vendoredDir = repoRoot.appending(path: "Packages")
 
 struct Package {
     let displayName: String
     let repoName: String
     let url: String
+    /// Where a vendored package lives; `nil` for one resolved into the checkouts.
+    let vendoredDirectory: URL?
 }
 
 guard let resolvedData = try? Data(contentsOf: resolvedURL) else {
@@ -79,17 +82,23 @@ guard let resolved = try? JSONDecoder().decode(ResolvedFile.self, from: resolved
     fail("could not parse \(resolvedURL.lastPathComponent)")
 }
 
-let packages: [Package] = resolved.pins
-    .map { pin in
-        let repoName = URL(string: pin.location)?
-            .deletingPathExtension()
-            .lastPathComponent ?? pin.identity
-        return Package(
-            displayName: displayNames[repoName] ?? repoName,
-            repoName: repoName,
-            url: pin.location
-        )
+let resolvedPackages: [Package] = resolved.pins.map { pin in
+    let repoName = URL(string: pin.location)?
+        .deletingPathExtension()
+        .lastPathComponent ?? pin.identity
+    return Package(displayName: repoName, repoName: repoName, url: pin.location, vendoredDirectory: nil)
+}
+
+let vendoredNames = ((try? FileManager.default.contentsOfDirectory(atPath: vendoredDir.path)) ?? [])
+    .filter { !$0.hasPrefix(".") }
+let vendoredPackages: [Package] = vendoredNames.map { name in
+    guard let url = vendoredOrigins[name] else {
+        fail("Packages/\(name) has no entry in vendoredOrigins")
     }
+    return Package(displayName: name, repoName: name, url: url, vendoredDirectory: vendoredDir.appending(path: name))
+}
+
+let packages: [Package] = (resolvedPackages + vendoredPackages)
     .sorted { $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending }
 
 guard !packages.isEmpty else {
@@ -125,9 +134,9 @@ func checkoutsDirectory(containing packages: [Package]) -> URL? {
         }
 }
 
-guard let checkouts = checkoutsDirectory(containing: packages) else {
+guard let checkouts = checkoutsDirectory(containing: resolvedPackages) else {
     fail("""
-        no SwiftPM checkouts directory holds all \(packages.count) resolved packages. \
+        no SwiftPM checkouts directory holds all \(resolvedPackages.count) resolved packages. \
         Build the Ice scheme in Xcode once to fetch them, or pass --checkouts <dir>.
         """)
 }
@@ -135,7 +144,7 @@ guard let checkouts = checkoutsDirectory(containing: packages) else {
 /// A package's licence text, copied verbatim. MIT requires the notice be reproduced
 /// in full, so nothing here reformats, truncates or summarises the file.
 func licenseText(for package: Package) -> String {
-    let directory = checkouts.appending(path: package.repoName)
+    let directory = package.vendoredDirectory ?? checkouts.appending(path: package.repoName)
     let names = (try? FileManager.default.contentsOfDirectory(atPath: directory.path)) ?? []
     let candidates = names
         .filter { $0.lowercased().hasPrefix("license") || $0.lowercased().hasPrefix("licence") }

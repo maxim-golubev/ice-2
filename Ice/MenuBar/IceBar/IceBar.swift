@@ -322,11 +322,17 @@ private struct IceBarContentView: View {
     }
 
     private var horizontalPadding: CGFloat {
-        3
+        if #available(macOS 26.0, *) {
+            return 3
+        }
+        return configuration.hasRoundedShape ? 7 : 5
     }
 
     private var verticalPadding: CGFloat {
-        screen.hasNotch && configuration.hasRoundedShape ? 2 : 0
+        if #available(macOS 26.0, *) {
+            return screen.hasNotch && configuration.hasRoundedShape ? 2 : 0
+        }
+        return screen.hasNotch ? 0 : 2
     }
 
     private var contentHeight: CGFloat? {
@@ -342,8 +348,10 @@ private struct IceBarContentView: View {
     private var clipShape: some InsettableShape {
         if configuration.hasRoundedShape {
             RoundedRectangle(cornerRadius: frame.height / 2, style: .circular)
-        } else {
+        } else if #available(macOS 26.0, *) {
             RoundedRectangle(cornerRadius: frame.height / 4, style: .continuous)
+        } else {
+            RoundedRectangle(cornerRadius: frame.height / 5, style: .continuous)
         }
     }
 

@@ -1,0 +1,100 @@
+"DragonKit.selectSetting" = "Selecciona un ajuste";
+"DragonKit.whatsNew.title" = "Novedades de esta versión";
+
+"DragonKit.ok" = "OK";
+"DragonKit.cancel" = "Cancelar";
+
+"DragonKit.language.label" = "Idioma";
+"DragonKit.language.system" = "Automático";
+
+"DragonKit.about.website" = "Sitio web";
+"DragonKit.about.support" = "Soporte en GitHub";
+"DragonKit.about.original" = "Proyecto original";
+"DragonKit.about.licenses" = "Licencias de código abierto";
+"DragonKit.about.credits" = "Créditos";
+"DragonKit.about.createdBy" = "Creado por";
+"DragonKit.about.basedOn" = "Basado en";
+"DragonKit.about.builtWith" = "Desarrollado con";
+"DragonKit.about.license" = "Licencia";
+
+"DragonKit.pane.about" = "Acerca de";
+"DragonKit.pane.whatsNew" = "Novedades";
+"DragonKit.pane.permissions" = "Permisos";
+"DragonKit.pane.backup" = "Copia de seguridad";
+"DragonKit.pane.updates" = "Actualizaciones";
+"DragonKit.pane.uninstall" = "Desinstalar";
+
+"DragonKit.permissions.granted" = "Concedido";
+"DragonKit.permissions.notGranted" = "No concedido";
+"DragonKit.permissions.request" = "Solicitar…";
+"DragonKit.permissions.openSettings" = "Abrir Ajustes del Sistema";
+"DragonKit.permissions.refresh" = "Actualizar";
+"DragonKit.permissions.refreshHint" = "Vuelve a comprobar los estados de permisos anteriores.";
+"DragonKit.permission.accessibility.title" = "Accesibilidad";
+"DragonKit.permission.accessibility.detail" = "Observar y controlar los elementos de la interfaz de otras apps.";
+"DragonKit.permission.screenRecording.title" = "Grabación de pantalla";
+"DragonKit.permission.screenRecording.detail" = "Capturar el contenido de la pantalla.";
+
+"DragonKit.backup.folderSection" = "Carpeta de copias";
+"DragonKit.backup.choose" = "Elegir…";
+"DragonKit.backup.backupsSection" = "Copias de seguridad";
+"DragonKit.backup.now" = "Hacer copia ahora";
+"DragonKit.backup.reveal" = "Mostrar en el Finder";
+"DragonKit.backup.none" = "Aún no hay copias.";
+"DragonKit.backup.restore" = "Restaurar";
+"DragonKit.backup.restoreConfirmTitle" = "¿Restaurar esta copia?";
+"DragonKit.backup.restoreConfirmMessage" = "Se reemplazarán tus ajustes actuales y la app se reiniciará.";
+"DragonKit.backup.deleteAccessibility" = "Eliminar copia %@";
+"DragonKit.backup.unchangedTitle" = "No hay nada que copiar";
+"DragonKit.backup.unchangedMessage" = "Tus ajustes no han cambiado desde la última copia, así que no se ha creado ninguna copia nueva.";
+"DragonKit.backup.errorTitle" = "Error de copia";
+
+"DragonKit.uninstall.section" = "Desinstalar";
+"DragonKit.uninstall.title" = "¿Desinstalar %@?";
+"DragonKit.uninstall.body" = "%@ se cerrará y se eliminará por completo. Esto eliminará:";
+"DragonKit.uninstall.permissionsNote" = "Los permisos que hayas concedido debes eliminarlos tú en Ajustes del Sistema ▸ Privacidad y seguridad; macOS no permite que la app los revoque. Esto no se puede deshacer.";
+"DragonKit.uninstall.confirm" = "Desinstalar";
+"DragonKit.uninstall.failedTitle" = "Desinstalación incompleta";
+"DragonKit.uninstall.failedMessage" = "No se ha podido mover %@ a la Papelera. Se han eliminado sus ajustes y su ítem de inicio de sesión, pero la app sigue instalada; muévela tú a la Papelera.";
+"DragonKit.uninstall.blockedDuplicatesTitle" = "Hay más de una copia instalada";
+"DragonKit.uninstall.blockedDuplicatesMessage" = "No se eliminó nada. Hay más de una copia de %1$@ instalada y todas comparten los mismos ajustes, el mismo elemento de inicio y los mismos archivos de soporte, así que desinstalar desde aquí podría borrar también los datos de la otra copia.\n\nMueve a la Papelera las copias que no quieras, deja solo la que quieres desinstalar y vuelve a intentarlo. No basta con cerrar la otra copia.\n\nCopias encontradas:";
+"DragonKit.uninstall.blockedIdentityTitle" = "Desinstalación no disponible";
+"DragonKit.uninstall.blockedIdentityMessage" = "No se eliminó nada. %@ no pudo confirmar su propia identidad de forma segura, así que no eliminará ajustes ni archivos que podrían pertenecer a otra copia. Vuelve a instalar la app desde su origen original e inténtalo de nuevo.";
+"DragonKit.uninstall.blockedNotRemovableTitle" = "No se puede desinstalar desde aquí";
+"DragonKit.uninstall.blockedNotRemovableMessage" = "No se eliminó nada. %1$@ no tiene permiso para moverse a la Papelera desde donde está instalada, así que se detuvo antes de borrar nada; de lo contrario, sus ajustes habrían desaparecido y la app seguiría instalada.\n\nPara desinstalarla, arrástrala a la Papelera en el Finder, que pedirá una contraseña de administrador si hace falta. Está instalada en:\n%2$@";
+"DragonKit.uninstall.blockedNotRemovableHomebrew" = "Si la instalaste con Homebrew, también puedes ejecutar esto en Terminal:\nbrew uninstall --cask %1$@";
+
+"DragonKit.updates.upToDate.title" = "%@ está actualizado";
+"DragonKit.updates.upToDate.message" = "%@ es actualmente la versión más reciente disponible.";
+"DragonKit.updates.autoCheck" = "Buscar actualizaciones automáticamente";
+"DragonKit.updates.autoDownload" = "Descargar actualizaciones automáticamente";
+"DragonKit.updates.checkNow" = "Buscar actualizaciones…";
+"DragonKit.updates.checkNowTitle" = "Buscar actualizaciones ahora";
+"DragonKit.updates.lastChecked" = "Última comprobación";
+"DragonKit.updates.never" = "Nunca";
+
+"DragonKit.whatsNew.kind.added" = "Añadido";
+"DragonKit.whatsNew.kind.changed" = "Cambiado";
+"DragonKit.whatsNew.kind.fixed" = "Corregido";
+"DragonKit.whatsNew.kind.removed" = "Eliminado";
+"DragonKit.whatsNew.kind.improved" = "Mejorado";
+"DragonKit.whatsNew.kind.security" = "Seguridad";
+
+"DragonKit.menu.about" = "Acerca de %@";
+"DragonKit.menu.checkForUpdates" = "Buscar actualizaciones…";
+"DragonKit.menu.settings" = "Ajustes…";
+"DragonKit.menu.quit" = "Salir de %@";
+
+"DragonKit.mainMenu.hide" = "Ocultar %@";
+"DragonKit.mainMenu.hideOthers" = "Ocultar otros";
+"DragonKit.mainMenu.showAll" = "Mostrar todo";
+"DragonKit.mainMenu.edit" = "Edición";
+"DragonKit.mainMenu.undo" = "Deshacer";
+"DragonKit.mainMenu.redo" = "Rehacer";
+"DragonKit.mainMenu.cut" = "Cortar";
+"DragonKit.mainMenu.copy" = "Copiar";
+"DragonKit.mainMenu.paste" = "Pegar";
+"DragonKit.mainMenu.selectAll" = "Seleccionar todo";
+"DragonKit.mainMenu.window" = "Ventana";
+"DragonKit.mainMenu.close" = "Cerrar";
+"DragonKit.mainMenu.minimize" = "Minimizar";

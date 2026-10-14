@@ -1,0 +1,100 @@
+"DragonKit.selectSetting" = "設定を選択してください";
+"DragonKit.whatsNew.title" = "このバージョンの新機能";
+
+"DragonKit.ok" = "OK";
+"DragonKit.cancel" = "キャンセル";
+
+"DragonKit.language.label" = "言語";
+"DragonKit.language.system" = "自動";
+
+"DragonKit.about.website" = "ウェブサイト";
+"DragonKit.about.support" = "GitHub でサポート";
+"DragonKit.about.original" = "オリジナルプロジェクト";
+"DragonKit.about.licenses" = "オープンソースライセンス";
+"DragonKit.about.credits" = "クレジット";
+"DragonKit.about.createdBy" = "作成者";
+"DragonKit.about.basedOn" = "ベース";
+"DragonKit.about.builtWith" = "使用技術";
+"DragonKit.about.license" = "ライセンス";
+
+"DragonKit.pane.about" = "情報";
+"DragonKit.pane.whatsNew" = "新機能";
+"DragonKit.pane.permissions" = "アクセス権";
+"DragonKit.pane.backup" = "バックアップと復元";
+"DragonKit.pane.updates" = "アップデート";
+"DragonKit.pane.uninstall" = "アンインストール";
+
+"DragonKit.permissions.granted" = "許可済み";
+"DragonKit.permissions.notGranted" = "未許可";
+"DragonKit.permissions.request" = "リクエスト…";
+"DragonKit.permissions.openSettings" = "システム設定を開く";
+"DragonKit.permissions.refresh" = "更新";
+"DragonKit.permissions.refreshHint" = "上のアクセス権の状態を再確認します。";
+"DragonKit.permission.accessibility.title" = "アクセシビリティ";
+"DragonKit.permission.accessibility.detail" = "ほかのアプリのインターフェイス要素を観察し、操作します。";
+"DragonKit.permission.screenRecording.title" = "画面収録";
+"DragonKit.permission.screenRecording.detail" = "画面の内容をキャプチャします。";
+
+"DragonKit.backup.folderSection" = "バックアップフォルダ";
+"DragonKit.backup.choose" = "選択…";
+"DragonKit.backup.backupsSection" = "バックアップ";
+"DragonKit.backup.now" = "今すぐバックアップ";
+"DragonKit.backup.reveal" = "Finderに表示";
+"DragonKit.backup.none" = "バックアップはまだありません。";
+"DragonKit.backup.restore" = "復元";
+"DragonKit.backup.restoreConfirmTitle" = "このバックアップを復元しますか？";
+"DragonKit.backup.restoreConfirmMessage" = "現在の設定は置き換えられ、アプリが再起動します。";
+"DragonKit.backup.deleteAccessibility" = "バックアップ%@を削除";
+"DragonKit.backup.unchangedTitle" = "バックアップの必要はありません";
+"DragonKit.backup.unchangedMessage" = "前回のバックアップから設定が変更されていないため、新しいバックアップは作成されませんでした。";
+"DragonKit.backup.errorTitle" = "バックアップエラー";
+
+"DragonKit.uninstall.section" = "アンインストール";
+"DragonKit.uninstall.title" = "%@をアンインストールしますか？";
+"DragonKit.uninstall.body" = "%@は終了し、完全に自身を削除します。次の項目が削除されます:";
+"DragonKit.uninstall.permissionsNote" = "許可した権限は、システム設定 ▸ プライバシーとセキュリティでご自身で削除してください。macOSではアプリが権限を取り消すことはできません。この操作は取り消せません。";
+"DragonKit.uninstall.confirm" = "アンインストール";
+"DragonKit.uninstall.failedTitle" = "アンインストールが完了しませんでした";
+"DragonKit.uninstall.failedMessage" = "%@をゴミ箱に移動できませんでした。設定とログイン項目は削除されましたが、アプリはまだインストールされています。ご自身でゴミ箱に移動してください。";
+"DragonKit.uninstall.blockedDuplicatesTitle" = "コピーが複数インストールされています";
+"DragonKit.uninstall.blockedDuplicatesMessage" = "何も削除されていません。%1$@ のコピーが複数インストールされており、設定・ログイン項目・サポートファイルを共有しています。ここからアンインストールすると、別のコピーのデータまで消えるおそれがあります。\n\n不要なコピーをゴミ箱に移動し、アンインストールしたいものだけを残してから、もう一度お試しください。別のコピーを終了するだけでは足りません。\n\n見つかったコピー：";
+"DragonKit.uninstall.blockedIdentityTitle" = "アンインストールできません";
+"DragonKit.uninstall.blockedIdentityMessage" = "何も削除されていません。%@は自身の識別情報を安全に確認できなかったため、別のコピーに属する可能性のある設定やファイルを削除しません。元の入手元からインストールし直してからお試しください。";
+"DragonKit.uninstall.blockedNotRemovableTitle" = "ここからはアンインストールできません";
+"DragonKit.uninstall.blockedNotRemovableMessage" = "何も削除されていません。%1$@ はインストールされている場所から自身をゴミ箱に移動する権限がないため、何かを削除する前に中止しました。続けていれば、アプリはインストールされたまま設定だけが消えていました。\n\nアンインストールするには、Finder でゴミ箱にドラッグしてください（必要に応じて管理者パスワードが求められます）。インストール場所：\n%2$@";
+"DragonKit.uninstall.blockedNotRemovableHomebrew" = "Homebrew でインストールした場合は、代わりにターミナルで次のコマンドを実行することもできます：\nbrew uninstall --cask %1$@";
+
+"DragonKit.updates.upToDate.title" = "%@ は最新です";
+"DragonKit.updates.upToDate.message" = "%@ が現在利用可能な最新バージョンです。";
+"DragonKit.updates.autoCheck" = "自動的にアップデートを確認";
+"DragonKit.updates.autoDownload" = "自動的にアップデートをダウンロード";
+"DragonKit.updates.checkNow" = "アップデートを確認…";
+"DragonKit.updates.checkNowTitle" = "今すぐアップデートを確認";
+"DragonKit.updates.lastChecked" = "最終確認";
+"DragonKit.updates.never" = "なし";
+
+"DragonKit.whatsNew.kind.added" = "追加";
+"DragonKit.whatsNew.kind.changed" = "変更";
+"DragonKit.whatsNew.kind.fixed" = "修正";
+"DragonKit.whatsNew.kind.removed" = "削除";
+"DragonKit.whatsNew.kind.improved" = "改善";
+"DragonKit.whatsNew.kind.security" = "セキュリティ";
+
+"DragonKit.menu.about" = "%@ について";
+"DragonKit.menu.checkForUpdates" = "アップデートを確認…";
+"DragonKit.menu.settings" = "設定…";
+"DragonKit.menu.quit" = "%@ を終了";
+
+"DragonKit.mainMenu.hide" = "%@を隠す";
+"DragonKit.mainMenu.hideOthers" = "ほかを隠す";
+"DragonKit.mainMenu.showAll" = "すべてを表示";
+"DragonKit.mainMenu.edit" = "編集";
+"DragonKit.mainMenu.undo" = "取り消す";
+"DragonKit.mainMenu.redo" = "やり直す";
+"DragonKit.mainMenu.cut" = "カット";
+"DragonKit.mainMenu.copy" = "コピー";
+"DragonKit.mainMenu.paste" = "ペースト";
+"DragonKit.mainMenu.selectAll" = "すべてを選択";
+"DragonKit.mainMenu.window" = "ウインドウ";
+"DragonKit.mainMenu.close" = "閉じる";
+"DragonKit.mainMenu.minimize" = "しまう";

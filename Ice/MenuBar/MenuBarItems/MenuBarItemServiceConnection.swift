@@ -130,11 +130,12 @@ extension MenuBarItemService {
             }
             // The `isFromSameTeam` requirement can only be satisfied when the
             // process has a Team Identifier. Ad-hoc/local development builds
-            // have none, so skip the peer requirement for them.
-            if CodeSigning.hasTeamIdentifier {
+            // have none, so skip the peer requirement for them. The
+            // requirement API itself needs macOS 26.
+            if #available(macOS 26.0, *), CodeSigning.hasTeamIdentifier {
                 session.setPeerRequirement(.isFromSameTeam())
             } else {
-                logger.notice("Connecting without same-team peer requirement (no Team Identifier)")
+                logger.notice("Connecting without same-team peer requirement")
             }
             session.setTargetQueue(queue)
             try session.activate()

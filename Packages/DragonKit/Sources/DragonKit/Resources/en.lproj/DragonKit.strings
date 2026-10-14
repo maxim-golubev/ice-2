@@ -1,0 +1,100 @@
+"DragonKit.selectSetting" = "Select a setting";
+"DragonKit.whatsNew.title" = "What's new in this version";
+
+"DragonKit.ok" = "OK";
+"DragonKit.cancel" = "Cancel";
+
+"DragonKit.language.label" = "Language";
+"DragonKit.language.system" = "Automatic";
+
+"DragonKit.about.website" = "Website";
+"DragonKit.about.support" = "Support on GitHub";
+"DragonKit.about.original" = "Original project";
+"DragonKit.about.licenses" = "Open-source licenses";
+"DragonKit.about.credits" = "Credits";
+"DragonKit.about.createdBy" = "Created by";
+"DragonKit.about.basedOn" = "Based on";
+"DragonKit.about.builtWith" = "Built with";
+"DragonKit.about.license" = "License";
+
+"DragonKit.pane.about" = "About";
+"DragonKit.pane.whatsNew" = "What's New";
+"DragonKit.pane.permissions" = "Permissions";
+"DragonKit.pane.backup" = "Backup & Restore";
+"DragonKit.pane.updates" = "Updates";
+"DragonKit.pane.uninstall" = "Uninstall";
+
+"DragonKit.permissions.granted" = "Granted";
+"DragonKit.permissions.notGranted" = "Not granted";
+"DragonKit.permissions.request" = "Request…";
+"DragonKit.permissions.openSettings" = "Open System Settings";
+"DragonKit.permissions.refresh" = "Refresh";
+"DragonKit.permissions.refreshHint" = "Re-checks the permission statuses above.";
+"DragonKit.permission.accessibility.title" = "Accessibility";
+"DragonKit.permission.accessibility.detail" = "Observe and control other apps' interface elements.";
+"DragonKit.permission.screenRecording.title" = "Screen Recording";
+"DragonKit.permission.screenRecording.detail" = "Capture the contents of the screen.";
+
+"DragonKit.backup.folderSection" = "Backup Folder";
+"DragonKit.backup.choose" = "Choose…";
+"DragonKit.backup.backupsSection" = "Backups";
+"DragonKit.backup.now" = "Back Up Now";
+"DragonKit.backup.reveal" = "Reveal in Finder";
+"DragonKit.backup.none" = "No backups yet.";
+"DragonKit.backup.restore" = "Restore";
+"DragonKit.backup.restoreConfirmTitle" = "Restore this backup?";
+"DragonKit.backup.restoreConfirmMessage" = "Your current settings will be replaced and the app will relaunch.";
+"DragonKit.backup.deleteAccessibility" = "Delete backup %@";
+"DragonKit.backup.unchangedTitle" = "Nothing to Back Up";
+"DragonKit.backup.unchangedMessage" = "Your settings haven't changed since the last backup, so no new backup was created.";
+"DragonKit.backup.errorTitle" = "Backup Error";
+
+"DragonKit.uninstall.section" = "Uninstall";
+"DragonKit.uninstall.title" = "Uninstall %@?";
+"DragonKit.uninstall.body" = "%@ will quit and remove itself completely. This will delete:";
+"DragonKit.uninstall.permissionsNote" = "Any permissions you granted must be removed by you in System Settings ▸ Privacy & Security — macOS does not let the app revoke them. This cannot be undone.";
+"DragonKit.uninstall.confirm" = "Uninstall";
+"DragonKit.uninstall.failedTitle" = "Uninstall Incomplete";
+"DragonKit.uninstall.failedMessage" = "%@ could not be moved to the Trash. Its settings and login item have been removed, but the app is still installed — move it to the Trash yourself.";
+"DragonKit.uninstall.blockedDuplicatesTitle" = "More Than One Copy Installed";
+"DragonKit.uninstall.blockedDuplicatesMessage" = "Nothing was removed. More than one copy of %1$@ is installed, and they share the same settings, login item and support files — so uninstalling from here could delete the other copy's data too.\n\nMove the copies you don't want to the Trash, leave only the one you mean to uninstall, then try again. Quitting the other copy is not enough.\n\nCopies found:";
+"DragonKit.uninstall.blockedIdentityTitle" = "Uninstall Unavailable";
+"DragonKit.uninstall.blockedIdentityMessage" = "Nothing was removed. %@ could not safely confirm its own identity, so it will not delete settings or files that may belong to another copy. Reinstall the app from its original source and try again.";
+"DragonKit.uninstall.blockedNotRemovableTitle" = "Can't Uninstall from Here";
+"DragonKit.uninstall.blockedNotRemovableMessage" = "Nothing was removed. %1$@ doesn't have permission to move itself to the Trash from where it is installed, so it stopped before deleting anything — otherwise its settings would be gone and the app still installed.\n\nTo uninstall it, drag it to the Trash in Finder, which asks for an administrator password when one is needed. It is installed at:\n%2$@";
+"DragonKit.uninstall.blockedNotRemovableHomebrew" = "If you installed it with Homebrew, you can run this in Terminal instead:\nbrew uninstall --cask %1$@";
+
+"DragonKit.updates.upToDate.title" = "%@ is up to date";
+"DragonKit.updates.upToDate.message" = "%@ is currently the newest version available.";
+"DragonKit.updates.autoCheck" = "Automatically check for updates";
+"DragonKit.updates.autoDownload" = "Automatically download updates";
+"DragonKit.updates.checkNow" = "Check for Updates…";
+"DragonKit.updates.checkNowTitle" = "Check for updates now";
+"DragonKit.updates.lastChecked" = "Last checked";
+"DragonKit.updates.never" = "Never";
+
+"DragonKit.whatsNew.kind.added" = "Added";
+"DragonKit.whatsNew.kind.changed" = "Changed";
+"DragonKit.whatsNew.kind.fixed" = "Fixed";
+"DragonKit.whatsNew.kind.removed" = "Removed";
+"DragonKit.whatsNew.kind.improved" = "Improved";
+"DragonKit.whatsNew.kind.security" = "Security";
+
+"DragonKit.menu.about" = "About %@";
+"DragonKit.menu.checkForUpdates" = "Check for Updates…";
+"DragonKit.menu.settings" = "Settings…";
+"DragonKit.menu.quit" = "Quit %@";
+
+"DragonKit.mainMenu.hide" = "Hide %@";
+"DragonKit.mainMenu.hideOthers" = "Hide Others";
+"DragonKit.mainMenu.showAll" = "Show All";
+"DragonKit.mainMenu.edit" = "Edit";
+"DragonKit.mainMenu.undo" = "Undo";
+"DragonKit.mainMenu.redo" = "Redo";
+"DragonKit.mainMenu.cut" = "Cut";
+"DragonKit.mainMenu.copy" = "Copy";
+"DragonKit.mainMenu.paste" = "Paste";
+"DragonKit.mainMenu.selectAll" = "Select All";
+"DragonKit.mainMenu.window" = "Window";
+"DragonKit.mainMenu.close" = "Close";
+"DragonKit.mainMenu.minimize" = "Minimize";

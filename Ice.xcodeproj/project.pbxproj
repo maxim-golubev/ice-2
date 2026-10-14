@@ -399,7 +399,7 @@
 				1787C4252B16890B002F50DF /* XCRemoteSwiftPackageReference "AXSwift" */,
 				7127A9FB2C4881BC00D99DEF /* XCRemoteSwiftPackageReference "Ifrit" */,
 				71A065072E680C620087DB38 /* XCRemoteSwiftPackageReference "Semaphore" */,
-				DA6DC1701A2B3C4D5E6F7081 /* XCRemoteSwiftPackageReference "dragon-kit" */,
+				DA6DC1701A2B3C4D5E6F7081 /* XCLocalSwiftPackageReference "Packages/DragonKit" */,
 			);
 			productRefGroup = 7166832B2A767E6A006ABF84 /* Products */;
 			projectDirPath = "";
@@ -539,7 +539,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2ATHQPJDP;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dragonapp.ice.IceTests;
 				PRODUCT_NAME = IceTests;
 				SDKROOT = macosx;
@@ -557,7 +557,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dragonapp.ice.IceTests;
 				PRODUCT_NAME = IceTests;
 				SDKROOT = macosx;
@@ -625,7 +625,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2026 Teddy Chan";
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -686,7 +686,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2026 Teddy Chan";
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -889,15 +889,14 @@
 				minimumVersion = 0.1.0;
 			};
 		};
-		DA6DC1701A2B3C4D5E6F7081 /* XCRemoteSwiftPackageReference "dragon-kit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/teddychan/dragon-kit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.2.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		DA6DC1701A2B3C4D5E6F7081 /* XCLocalSwiftPackageReference "Packages/DragonKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/DragonKit;
+		};
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		1787C4262B16890B002F50DF /* AXSwift */ = {
@@ -922,12 +921,12 @@
 		};
 		DA6DC1702A2B3C4D5E6F7082 /* DragonKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = DA6DC1701A2B3C4D5E6F7081 /* XCRemoteSwiftPackageReference "dragon-kit" */;
+			package = DA6DC1701A2B3C4D5E6F7081 /* XCLocalSwiftPackageReference "Packages/DragonKit" */;
 			productName = DragonKit;
 		};
 		DA6DC1712A2B3C4D5E6F7084 /* DragonKitUpdates */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = DA6DC1701A2B3C4D5E6F7081 /* XCRemoteSwiftPackageReference "dragon-kit" */;
+			package = DA6DC1701A2B3C4D5E6F7081 /* XCLocalSwiftPackageReference "Packages/DragonKit" */;
 			productName = DragonKitUpdates;
 		};
 /* End XCSwiftPackageProductDependency section */

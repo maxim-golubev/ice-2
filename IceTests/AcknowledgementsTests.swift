@@ -15,16 +15,13 @@ import Testing
 /// feature broke and nothing looked wrong — which is precisely why the contract is asserted
 /// here rather than left to review.
 ///
-/// Three descriptions of one fact have to agree: `Package.resolved` (what the project links),
+/// Three descriptions of one fact have to agree: `Package.resolved` and `Packages/` (what the
+/// project links),
 /// ``AboutConfig`` `.attributions` (what the About pane claims), and the bundled
 /// `Acknowledgements.pdf` (what ships to satisfy MIT's "included in all copies"). Regenerate
 /// the document with `scripts/generate-acknowledgements.swift` when this fails.
 struct AcknowledgementsTests {
     // MARK: Sources of truth
-
-    /// `Package.resolved` names repositories; DragonKit is the only package known by a
-    /// different name. Mirrors the map in `scripts/generate-acknowledgements.swift`.
-    private static let displayNames = ["dragon-kit": "DragonKit"]
 
     /// The checkout root, derived from this file's compile-time path. The test bundle cannot
     /// reach `Package.resolved` any other way — it is a project input, not a bundled resource.
@@ -40,20 +37,23 @@ struct AcknowledgementsTests {
         let pins: [Pin]
     }
 
-    /// Every package the project resolves, under the name the notices use.
-    private func resolvedPackageNames() throws -> Set<String> {
+    /// Every package the project links: those it resolves, under their repository names, and
+    /// those copied into `Packages/`, under their directory names.
+    private func linkedPackageNames() throws -> Set<String> {
         let url = Self.repoRoot.appending(
             path: "Ice.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
         )
         let data = try Data(contentsOf: url)
         let resolved = try JSONDecoder().decode(ResolvedFile.self, from: data)
-        let names = resolved.pins.map { pin -> String in
-            let repoName = URL(string: pin.location)?
+        let resolvedNames = resolved.pins.map { pin -> String in
+            URL(string: pin.location)?
                 .deletingPathExtension()
                 .lastPathComponent ?? pin.location
-            return Self.displayNames[repoName] ?? repoName
         }
-        return Set(names)
+        let vendoredNames = try FileManager.default
+            .contentsOfDirectory(atPath: Self.repoRoot.appending(path: "Packages").path)
+            .filter { !$0.hasPrefix(".") }
+        return Set(resolvedNames + vendoredNames)
     }
 
     /// The text of the notices document that actually ships inside the app bundle.
@@ -94,7 +94,7 @@ struct AcknowledgementsTests {
     // MARK: Tests
 
     @Test func bundledNoticesCoverExactlyTheResolvedPackages() throws {
-        let resolved = try resolvedPackageNames()
+        let resolved = try linkedPackageNames()
         let documented = Set(sections(in: try bundledNoticesText()).keys)
 
         // Set equality both ways, so a package that is linked but undocumented fails just as
@@ -116,12 +116,12 @@ struct AcknowledgementsTests {
     /// only one of the five apps that did — the kit's own sample app links DragonKit and
     /// DragonKitUpdates and still attributes Sparkle alone.
     ///
-    /// Subtracted HERE and not in `resolvedPackageNames()`, deliberately: the notice tests share
+    /// Subtracted HERE and not in `linkedPackageNames()`, deliberately: the notice tests share
     /// that helper and DragonKit must stay in their expectation, because the bundled document and
     /// the hosted page are what satisfy MIT's "included in all copies" and the Built-with row
     /// carries a version rather than a licence.
     @Test func aboutPaneAttributionsCoverExactlyTheResolvedPackages() throws {
-        let expected = try resolvedPackageNames().subtracting(["DragonKit"])
+        let expected = try linkedPackageNames().subtracting(["DragonKit"])
         let attributed = Set(AboutConfig.content.attributions.map(\.name))
 
         #expect(attributed == expected, """
@@ -140,7 +140,7 @@ struct AcknowledgementsTests {
         // writes; a document in any other shape parses as zero sections, and that must fail
         // here rather than read as "every notice checked out".
         #expect(!sections.isEmpty, "no package sections were found — the document format changed")
-        #expect(sections.count == (try resolvedPackageNames()).count)
+        #expect(sections.count == (try linkedPackageNames()).count)
 
         // A heading alone would satisfy the set comparisons above while shipping none of the
         // text MIT requires be included, so each section is checked for the grant itself.

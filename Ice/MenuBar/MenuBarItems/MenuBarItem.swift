@@ -277,6 +277,14 @@ extension MenuBarItem {
         return items
     }
 
+    /// Creates and returns a list of menu bar items, taking each window's
+    /// owner as its source, which holds before macOS 26.
+    private static func getMenuBarItemsLegacyMethod(on display: CGDirectDisplayID?, option: ListOption) -> [MenuBarItem] {
+        getMenuBarItemWindows(on: display, option: option).map { window in
+            MenuBarItem(uncheckedItemWindow: window)
+        }
+    }
+
     /// Creates and returns a list of menu bar items for the given display.
     ///
     /// - Parameters:
@@ -285,7 +293,11 @@ extension MenuBarItem {
     ///   - option: Options that filter the returned list. Pass an empty option set
     ///     to return all available menu bar items.
     static func getMenuBarItems(on display: CGDirectDisplayID? = nil, option: ListOption) async -> [MenuBarItem] {
-        await getMenuBarItemsExperimental(on: display, option: option)
+        if #available(macOS 26.0, *) {
+            await getMenuBarItemsExperimental(on: display, option: option)
+        } else {
+            getMenuBarItemsLegacyMethod(on: display, option: option)
+        }
     }
 }
 

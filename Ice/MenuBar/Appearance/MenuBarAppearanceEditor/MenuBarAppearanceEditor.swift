@@ -21,7 +21,7 @@ struct MenuBarAppearanceEditor: View {
 
     var body: some View {
         bodyContent
-            .safeAreaBar(edge: .bottom, spacing: 0) {
+            .bottomSafeAreaBar {
                 bottomBar
             }
     }
@@ -32,7 +32,7 @@ struct MenuBarAppearanceEditor: View {
             cannotEdit
         } else {
             mainForm
-                .scrollEdgeEffectStyle(.hard, for: .vertical)
+                .hardScrollEdgeEffect(for: .vertical)
         }
     }
 

@@ -139,7 +139,11 @@ extension MenuBarItemTag {
     static let clock = MenuBarItemTag(namespace: .controlCenter, title: "Clock")
 
     /// The tag for the system "Control Center" item.
-    static let controlCenter = MenuBarItemTag(namespace: .controlCenter, title: "BentoBox-0")
+    static let controlCenter = if #available(macOS 26.0, *) {
+        MenuBarItemTag(namespace: .controlCenter, title: "BentoBox-0")
+    } else {
+        MenuBarItemTag(namespace: .controlCenter, title: "BentoBox")
+    }
 
     /// The tag for the system "FaceTime" item.
     static let faceTime = MenuBarItemTag(namespace: .controlCenter, title: "FaceTime")
@@ -155,7 +159,11 @@ extension MenuBarItemTag {
     static let siri = MenuBarItemTag(namespace: .systemUIServer, title: "Siri")
 
     /// The tag for the system "Time Machine" item.
-    static let timeMachine = MenuBarItemTag(namespace: .systemUIServer, title: "com.apple.menuextra.TimeMachine")
+    static let timeMachine = if #available(macOS 26.0, *) {
+        MenuBarItemTag(namespace: .systemUIServer, title: "com.apple.menuextra.TimeMachine")
+    } else {
+        MenuBarItemTag(namespace: .systemUIServer, title: "TimeMachineMenuExtra.TMMenuExtraHost")
+    }
 }
 
 // MARK: - MenuBarItemTag.Namespace
