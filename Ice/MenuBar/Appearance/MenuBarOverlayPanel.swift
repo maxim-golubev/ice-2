@@ -716,13 +716,23 @@ private final class MenuBarOverlayPanelContentView: NSView {
     private func menuBarContentPath(in rect: CGRect, screen: NSScreen) -> NSBezierPath {
         let contentPath = NSBezierPath()
 
+        // `screenRect` comes from Accessibility or the window list, both in
+        // CoreGraphics coordinates (origin at the top left of the primary
+        // display); the panel's frame is in AppKit coordinates (bottom left).
         func localRect(for screenRect: CGRect) -> CGRect? {
-            guard let overlayPanel else {
+            guard let overlayPanel, let primaryScreen = NSScreen.screens.first else {
                 return nil
             }
-            return screenRect
+            let appKitRect = CGRect(
+                x: screenRect.minX,
+                y: primaryScreen.frame.maxY - screenRect.maxY,
+                width: screenRect.width,
+                height: screenRect.height
+            )
+            let local = appKitRect
                 .offsetBy(dx: -overlayPanel.frame.minX, dy: -overlayPanel.frame.minY)
                 .intersection(rect)
+            return local.isNull ? nil : local
         }
 
         if

@@ -90,7 +90,14 @@ public extension DragonPermission {
 
     /// Screen Recording — required to capture the contents of the screen.
     /// Title and detail are kit-owned localization keys (see ``DragonPermission/details``).
-    static func screenRecording(isRequired: Bool = false) -> DragonPermission {
+    ///
+    /// `check` and `request` default to the CoreGraphics calls. Since macOS 15 those only
+    /// report the value at launch and do not prompt, so an app with a better probe passes it.
+    static func screenRecording(
+        isRequired: Bool = false,
+        check: @escaping () -> Bool = { CGPreflightScreenCaptureAccess() },
+        request: @escaping () -> Void = { _ = CGRequestScreenCaptureAccess() }
+    ) -> DragonPermission {
         DragonPermission(
             id: "screenRecording",
             title: "DragonKit.permission.screenRecording.title",
@@ -101,8 +108,8 @@ public extension DragonPermission {
                 URL(string: "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_ScreenCapture"),
                 URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"),
             ].compactMap { $0 },
-            check: { CGPreflightScreenCaptureAccess() },
-            request: { _ = CGRequestScreenCaptureAccess() }
+            check: check,
+            request: request
         )
     }
 }

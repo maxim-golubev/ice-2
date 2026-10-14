@@ -126,15 +126,8 @@ struct SettingsBackupTests {
         }
     }
 
-    @Test func fileNameShapeIsTimezoneRobust() {
-        // timestamp() sets no timeZone, so only assert the SHAPE, not an
-        // exact value from an absolute Date.
-        let name = SettingsBackup.fileName(for: Date(timeIntervalSince1970: 0))
-        let matched = name.range(
-            of: #"^Ice-Settings-\d{4}-\d{2}-\d{2}-\d{6}\.icebackup$"#,
-            options: .regularExpression
-        )
-        #expect(matched != nil)
+    @Test func fileNamesAreStampedInUTC() {
+        #expect(SettingsBackup.fileName(for: Date(timeIntervalSince1970: 0)) == "Ice-Settings-1970-01-01-000000.icebackup")
     }
 
     @Test func listBackupsFiltersAndSortsNewestFirst() throws {
@@ -167,6 +160,28 @@ struct SettingsBackupTests {
         let remaining = SettingsBackup.listBackups(in: folder)
         #expect(remaining.count == 1)
         #expect(remaining.first?.lastPathComponent == "Ice-Settings-2026-01-03-000000.icebackup")
+    }
+
+    @Test func quittingBacksUpOnlyStoredSettings() {
+        let (defaults, suite) = makeScratch()
+        defer { ScratchDefaults.destroy(suite) }
+
+        // Nothing stored: a fresh install, or the domain Uninstall just wiped.
+        #expect(!SettingsBackup.shouldBackUpOnQuit(defaults))
+
+        defaults.set("hello", forKey: Defaults.Key.iceIcon.rawValue)
+        #expect(SettingsBackup.shouldBackUpOnQuit(defaults))
+
+        defaults.set(false, forKey: Defaults.Key.automaticBackupEnabled.rawValue)
+        #expect(!SettingsBackup.shouldBackUpOnQuit(defaults))
+    }
+
+    @Test func aFileWithoutSettingsIsRefused() throws {
+        let payload: [String: Any] = ["schemaVersion": 1, "appVersion": "1"]
+        let data = try SettingsBackup.serialize(payload)
+        #expect(throws: SettingsBackupError.malformed) {
+            try SettingsBackup.deserialize(data)
+        }
     }
 
     // MARK: - writeBackup / restore (file round-trip)

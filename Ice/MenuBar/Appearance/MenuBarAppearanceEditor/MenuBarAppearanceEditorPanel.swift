@@ -32,7 +32,6 @@ final class MenuBarAppearanceEditorPanel: NSPanel {
             backing: .buffered,
             defer: false
         )
-        self.title = L("app.appearance.panelTitle")
         self.titlebarAppearsTransparent = true
         self.allowsToolTipsWhenApplicationIsInactive = true
         self.isFloatingPanel = true
@@ -102,6 +101,8 @@ final class MenuBarAppearanceEditorPanel: NSPanel {
         guard let appState else {
             return
         }
+        // Resolved on each show, not once at init, so it follows the language picker.
+        title = L("app.appearance.panelTitle")
         appState.activate(withPolicy: .regular)
         installContentViewIfNeeded(with: appState)
         updatePosition(for: screen)

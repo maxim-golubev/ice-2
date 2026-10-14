@@ -67,7 +67,10 @@ final class HotkeysSettings: ObservableObject {
         var c = Set<AnyCancellable>()
 
         for hotkey in hotkeys {
+            // The first value is what was just loaded: writing it back gains nothing, and
+            // after a failed decode would replace the stored settings with the defaults.
             hotkey.$keyCombination
+                .dropFirst()
                 .encode(encoder: encoder)
                 .receive(on: DispatchQueue.main)
                 .sink { completion in

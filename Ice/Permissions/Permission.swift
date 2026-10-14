@@ -45,9 +45,6 @@ class Permission: ObservableObject, Identifiable {
     /// Observer that runs on a timer to check permissions.
     private var timerCancellable: AnyCancellable?
 
-    /// Observer that observes the ``hasPermission`` property.
-    private var hasPermissionCancellable: AnyCancellable?
-
     /// Creates a permission.
     ///
     /// - Parameters:
@@ -174,17 +171,10 @@ class Permission: ObservableObject, Identifiable {
         guard !hasPermission else {
             return
         }
-        return await withCheckedContinuation { continuation in
-            hasPermissionCancellable = $hasPermission.sink { [weak self] hasPermission in
-                guard let self else {
-                    continuation.resume()
-                    return
-                }
-                if hasPermission {
-                    hasPermissionCancellable?.cancel()
-                    continuation.resume()
-                }
-            }
+        // A stream rather than a stored sink, so a second wait (the button pressed
+        // again) does not replace the first one's subscription and strand its caller.
+        for await hasPermission in $hasPermission.values where hasPermission {
+            return
         }
     }
 
@@ -192,8 +182,6 @@ class Permission: ObservableObject, Identifiable {
     func stopCheck() {
         timerCancellable?.cancel()
         timerCancellable = nil
-        hasPermissionCancellable?.cancel()
-        hasPermissionCancellable = nil
     }
 }
 

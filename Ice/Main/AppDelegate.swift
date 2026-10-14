@@ -87,7 +87,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         appState.menuBarManager.nativeManager.restore()
         // Keep the (possibly synced) backup folder current on quit. Best-effort:
         // a failure here must never block termination.
-        guard SettingsBackup.automaticBackupEnabled() else {
+        guard SettingsBackup.shouldBackUpOnQuit() else {
             return
         }
         do {

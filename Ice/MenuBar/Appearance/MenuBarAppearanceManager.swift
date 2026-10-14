@@ -72,7 +72,10 @@ final class MenuBarAppearanceManager: ObservableObject {
             }
             .store(in: &c)
 
+        // The first value is what was just loaded: writing it back gains nothing, and
+        // after a failed decode would replace the stored settings with the defaults.
         $configuration
+            .dropFirst()
             .encode(encoder: encoder)
             .receive(on: DispatchQueue.main)
             .sink { completion in
@@ -104,26 +107,24 @@ final class MenuBarAppearanceManager: ObservableObject {
     /// Returns a Boolean value that indicates whether a set of overlay panels
     /// is needed for the given configuration.
     private func needsOverlayPanels(for configuration: MenuBarAppearanceConfigurationV2) -> Bool {
-        let current = configuration.current
         if configuration.removesMenuBarBackground {
             return true
         }
         if configuration.roundsScreenCorners {
             return true
         }
-        if current.hasShadow {
-            return true
-        }
-        if current.hasBorder {
-            return true
-        }
         if configuration.shapeKind != .noShape {
             return true
         }
-        if current.tintKind != .noTint {
-            return true
+        // Both modes of a dynamic configuration, not just the current one: nothing
+        // configures the panels again when the system switches between light and
+        // dark, so a style set only for the other mode would never appear.
+        let partials = configuration.isDynamic
+            ? [configuration.lightModeConfiguration, configuration.darkModeConfiguration]
+            : [configuration.staticConfiguration]
+        return partials.contains { partial in
+            partial.hasShadow || partial.hasBorder || partial.tintKind != .noTint
         }
-        return false
     }
 
     /// Configures the manager's overlay panels, if required by the given configuration.

@@ -125,7 +125,10 @@ final class MenuBarTriggerSettings: ObservableObject {
     }
 
     private func configureCancellables() {
+        // The first value is what was just loaded: writing it back gains nothing, and
+        // after a failed decode would replace the stored settings with the defaults.
         $triggers
+            .dropFirst()
             .encode(encoder: encoder)
             .receive(on: DispatchQueue.main)
             .sink { completion in

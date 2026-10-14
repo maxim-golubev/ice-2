@@ -122,6 +122,11 @@ final class MenuBarSearchPanel: NSPanel {
         Task {
             await appState.imageCache.updateCache()
 
+            // Closed while the images were updating.
+            guard appState.navigationState.isSearchPresented else {
+                return
+            }
+
             let hostingView = MenuBarSearchHostingView(appState: appState, model: model, displayID: screen.displayID, panel: self)
             hostingView.setFrameSize(hostingView.intrinsicContentSize)
             setFrame(hostingView.frame, display: true)

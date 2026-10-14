@@ -72,18 +72,23 @@ enum SettingsBackup {
         appVersion: String,
         createdDate: Date
     ) -> [String: Any] {
+        [
+            PayloadKey.schemaVersion: schemaVersion,
+            PayloadKey.appVersion: appVersion,
+            PayloadKey.createdDate: createdDate,
+            PayloadKey.defaults: storedValues(keys: keys, from: defaults),
+        ]
+    }
+
+    /// The values stored under `keys`, by key name; keys left at their default are absent.
+    static func storedValues(keys: [Defaults.Key] = backedUpKeys, from defaults: UserDefaults) -> [String: Any] {
         var stored: [String: Any] = [:]
         for key in keys {
             if let value = defaults.object(forKey: key.rawValue) {
                 stored[key.rawValue] = value
             }
         }
-        return [
-            PayloadKey.schemaVersion: schemaVersion,
-            PayloadKey.appVersion: appVersion,
-            PayloadKey.createdDate: createdDate,
-            PayloadKey.defaults: stored,
-        ]
+        return stored
     }
 
     /// Apply a payload's stored values onto `defaults`. For every backed-up key
@@ -131,6 +136,11 @@ enum SettingsBackup {
         guard version <= schemaVersion else {
             throw SettingsBackupError.unsupportedVersion(version)
         }
+        // `apply` treats a missing key as "remove it", so a file without its
+        // settings would restore as a factory reset.
+        guard payload[PayloadKey.defaults] is [String: Any] else {
+            throw SettingsBackupError.malformed
+        }
         return payload
     }
 
@@ -157,10 +167,13 @@ enum SettingsBackup {
         return home.appending(path: "Documents/\(name)", directoryHint: .isDirectory)
     }
 
-    /// A lexically-sortable timestamp, e.g. "2026-06-29-013045".
+    /// A lexically-sortable timestamp in UTC, e.g. "2026-06-29-013045". UTC because
+    /// "newest" and pruning go by filename, and backups from Macs in different time
+    /// zones (or from either side of a daylight-saving change) share one folder.
     static func timestamp(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(identifier: "UTC")
         formatter.dateFormat = "yyyy-MM-dd-HHmmss"
         return formatter.string(from: date)
     }
@@ -234,6 +247,14 @@ enum SettingsBackup {
     /// Whether automatic (on-quit) backups are enabled (default true).
     static func automaticBackupEnabled(_ defaults: UserDefaults = .standard) -> Bool {
         defaults.object(forKey: Defaults.Key.automaticBackupEnabled.rawValue) as? Bool ?? true
+    }
+
+    /// Whether quitting should write a backup: automatic backups are on, and there is a
+    /// setting to keep. With nothing stored (a fresh install, or the domain Uninstall has
+    /// just wiped, which also reads as "automatic backups on") a backup would be empty, and
+    /// writing it would prune a real one and become the "newest" backup to restore.
+    static func shouldBackUpOnQuit(_ defaults: UserDefaults = .standard) -> Bool {
+        automaticBackupEnabled(defaults) && !storedValues(from: defaults).isEmpty
     }
 
     /// Back up `defaults` to the configured folder and prune to the retention

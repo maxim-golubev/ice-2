@@ -146,7 +146,13 @@ struct SettingsView: View {
         case .advanced:
             AdvancedSettingsPane(settings: appState.settings.advanced)
         case .permissions:
-            PermissionsPane(permissions: [.accessibility(), .screenRecording()])
+            PermissionsPane(permissions: [
+                .accessibility(),
+                .screenRecording(
+                    check: { ScreenCapture.checkPermissions() },
+                    request: { ScreenCapture.requestPermissions() }
+                ),
+            ])
         case .backup:
             IceBackupSettingsPane()
         case .whatsNew:
