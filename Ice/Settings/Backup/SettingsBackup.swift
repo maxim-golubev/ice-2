@@ -146,8 +146,12 @@ enum SettingsBackup {
 
     // MARK: - Files & retention
 
-    /// Default backup folder when the user hasn't chosen one: `~/Documents/Ice Backups`, or
-    /// `~/Documents/Ice Backups (Debug)` for anything that isn't the installed release.
+    /// Default backup folder when the user hasn't chosen one: `~/Documents/Ice 2 Backups`, or
+    /// `~/Documents/Ice 2 Backups (Debug)` for anything that isn't the installed release.
+    ///
+    /// Not upstream Ice 2's `Ice Backups`: pruning keeps the newest files in the folder, so
+    /// sharing it would let either app delete the other's backups, and upstream's backups
+    /// name items by its own bundle id, which this fork's items do not match.
     ///
     /// The `.debug` bundle id separates `UserDefaults.standard` and the per-bundle-id Library
     /// folders on its own; it does nothing for a path spelled out in source like this one. Both
@@ -163,7 +167,7 @@ enum SettingsBackup {
         home: URL = FileManager.default.homeDirectoryForCurrentUser,
         bundleID: String? = Bundle.main.bundleIdentifier
     ) -> URL {
-        let name = bundleID == Constants.releaseBundleIdentifier ? "Ice Backups" : "Ice Backups (Debug)"
+        let name = bundleID == Constants.releaseBundleIdentifier ? "Ice 2 Backups" : "Ice 2 Backups (Debug)"
         return home.appending(path: "Documents/\(name)", directoryHint: .isDirectory)
     }
 

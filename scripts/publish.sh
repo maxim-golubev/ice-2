@@ -2,14 +2,15 @@
 # Publishes the archive scripts/release.sh built: a GitHub release v<version> on
 # maxim-golubev/ice-2 carrying Ice-2-<version>.zip, then a new item at the top of appcast.xml,
 # committed and pushed, which is what every installed copy's update check reads.
-# Refuses an archive built from anything but HEAD, a HEAD that is not pushed, and an existing tag.
+# Refuses an archive built from anything but HEAD, a HEAD that is not pushed, and an appcast
+# that already lists the version. The appcast item is written and checked before the release is
+# created; a run stopped after creating the release can be run again and finishes the appcast.
 # Usage: scripts/publish.sh --notes-file <markdown outside the checkout>
+fail() { print -u2 -r -- "publish: $1"; exit 1 }
+[[ $1 == --notes-file && -r $2 ]] || fail "usage: scripts/publish.sh --notes-file <file>"
+notes=${2:A}
 cd "$(dirname "$0")/.."
 repo=maxim-golubev/ice-2
-fail() { print -u2 -r -- "publish: $1"; exit 1 }
-
-[[ $1 == --notes-file && -r $2 ]] || fail "usage: scripts/publish.sh --notes-file <file>"
-notes=$2
 
 app="build/release-dd/Build/Products/Release/Ice 2.app"
 plist="$app/Contents/Info.plist"
@@ -26,10 +27,8 @@ edsig=build/release/Ice-2-$version.edsig
 git fetch -q origin main || fail "origin cannot be reached"
 [[ $(git rev-parse HEAD) == $(git rev-parse origin/main) ]] || fail "HEAD is not what origin/main holds; push first"
 tag=v$version
-git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null && fail "$tag already exists on origin"
-
-gh release create "$tag" "$zip" --repo "$repo" --target "$(git rev-parse HEAD)" \
-  --title "Ice 2 $version" --notes-file "$notes" || fail "the GitHub release could not be created"
+grep -q "<sparkle:shortVersionString>$version</sparkle:shortVersionString>" appcast.xml \
+  && fail "appcast.xml already lists $version"
 
 # The release notes as Sparkle shows them: each "- " line a list item, other lines paragraphs.
 description=$(sed -E -e 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g' \
@@ -49,8 +48,15 @@ awk -v itemfile=build/release/appcast-item.xml '
   { print }
   /<title>Ice 2<\/title>/ { while ((getline line < itemfile) > 0) print line }
 ' appcast.xml > build/release/appcast.xml || fail "appcast.xml could not be updated"
+xmllint --noout build/release/appcast.xml || fail "the updated appcast is not well-formed"
+
+if gh release view "$tag" --repo "$repo" >/dev/null 2>&1; then
+  print -r -- "publish: $tag already exists on GitHub; finishing its appcast entry"
+else
+  gh release create "$tag" "$zip" --repo "$repo" --target "$(git rev-parse HEAD)" \
+    --title "Ice 2 $version" --notes-file "$notes" || fail "the GitHub release could not be created"
+fi
 mv build/release/appcast.xml appcast.xml
-xmllint --noout appcast.xml || fail "appcast.xml is not well-formed"
 
 git add appcast.xml
 git commit -q -m "Appcast: Ice 2 $version" || fail "the appcast could not be committed"

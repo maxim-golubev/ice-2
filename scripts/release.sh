@@ -54,6 +54,11 @@ ditto -x -k "$zip" build/release/check || fail "the archive cannot be unpacked"
 codesign --verify --deep --strict "build/release/check/Ice 2.app" || fail "the unpacked app's signature does not verify"
 rm -rf build/release/check
 
+# The key must be the one installed copies trust, or every one of them rejects the update
+public_key=$(swift scripts/sparkle-public-key.swift "$key") || fail "the Sparkle key at $key cannot be read"
+[[ $public_key == $(/usr/libexec/PlistBuddy -c 'Print SUPublicEDKey' "$plist") ]] \
+  || fail "the Sparkle key at $key is not the one whose public half is the app's SUPublicEDKey"
+
 sign_update=build/release-dd/SourcePackages/artifacts/sparkle/Sparkle/bin/sign_update
 [[ -x $sign_update ]] || fail "Sparkle's sign_update is missing from $sign_update"
 "$sign_update" --ed-key-file "$key" -p "$zip" > "$edsig" || fail "the archive could not be signed for Sparkle"

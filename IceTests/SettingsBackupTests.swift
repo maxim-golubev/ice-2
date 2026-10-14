@@ -258,7 +258,7 @@ struct SettingsBackupTests {
     @Test func defaultFolderIsDocumentsIceBackups() {
         let home = URL(fileURLWithPath: "/Users/test", isDirectory: true)
         let folder = SettingsBackup.defaultFolder(home: home, bundleID: "com.maximgolubev.Ice2")
-        #expect(folder.path == "/Users/test/Documents/Ice Backups")
+        #expect(folder.path == "/Users/test/Documents/Ice 2 Backups")
     }
 
     /// Only the installed release gets the plain folder. Both builds used to share it, and
@@ -269,7 +269,7 @@ struct SettingsBackupTests {
         let home = URL(fileURLWithPath: "/Users/test", isDirectory: true)
         for id in ["com.maximgolubev.Ice2.debug", nil] {
             let folder = SettingsBackup.defaultFolder(home: home, bundleID: id)
-            #expect(folder.path == "/Users/test/Documents/Ice Backups (Debug)")
+            #expect(folder.path == "/Users/test/Documents/Ice 2 Backups (Debug)")
         }
     }
 

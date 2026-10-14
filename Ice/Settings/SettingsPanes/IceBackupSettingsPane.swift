@@ -27,7 +27,7 @@ import SwiftUI
 struct IceBackupSettingsPane: View {
     @EnvironmentObject var appState: AppState
 
-    /// Backup folder. Defaults to ~/Documents/Ice Backups; the user can point it
+    /// Backup folder. Defaults to ~/Documents/Ice 2 Backups; the user can point it
     /// at a Dropbox / iCloud Drive / Google Drive folder to sync across Macs.
     @AppStorage(Defaults.Key.backupFolderPath.rawValue) private var backupFolderPath = ""
     @AppStorage(Defaults.Key.automaticBackupEnabled.rawValue) private var automaticBackup = true
