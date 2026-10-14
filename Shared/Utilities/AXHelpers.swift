@@ -50,6 +50,33 @@ enum AXHelpers {
         queue.sync { try? element.attribute(.parent) }
     }
 
+    /// Whether `point` is over a status item on macOS 27, where MenuBarAgent draws
+    /// every status item into its one bar window, so there are no item windows to
+    /// hit-test. The bar window itself, or another app's menu bar, is empty space;
+    /// anything else of MenuBarAgent's is an item. An element that cannot be read
+    /// counts as an item, so an unexpected tree turns no icon click into an
+    /// empty-bar click.
+    static func isMenuBarAgentStatusItem(at point: CGPoint) -> Bool {
+        guard
+            let element = element(at: point),
+            let (pid, role) = queue.sync(execute: { () -> (pid_t, Role?)? in
+                guard let pid = try? element.pid() else {
+                    return nil
+                }
+                return (pid, try? element.role())
+            })
+        else {
+            return true
+        }
+        let agentPID = NSRunningApplication
+            .runningApplications(withBundleIdentifier: "com.apple.MenuBarAgent")
+            .first?.processIdentifier
+        if pid == agentPID {
+            return role != .window
+        }
+        return role != .menuBar
+    }
+
     /// Returns the menu bar AX element near the given display origin.
     static func menuBarElement(nearDisplayOrigin displayOrigin: CGPoint) -> UIElement? {
         let probeOffsets = [

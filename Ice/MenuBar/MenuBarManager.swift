@@ -173,7 +173,9 @@ final class MenuBarManager: ObservableObject {
                 //   * The menu bar is hidden by the system.
                 //   * The active space is fullscreen.
                 //   * The settings window is visible.
+                //   * macOS 27 hides items natively, without item windows to measure.
                 guard
+                    !NativeMenuBarManager.usesNativeBackend,
                     appState.settings.advanced.hideApplicationMenus,
                     !isMenuBarHiddenBySystem,
                     !appState.activeSpace.isFullscreen,
@@ -206,10 +208,14 @@ final class MenuBarManager: ObservableObject {
                                     items.trimPrefix { $0.bounds.maxX <= alwaysHiddenControlItem.bounds.minX }
                                 }
                             }
-                        } else {
-                            if let hiddenControlItem = items.firstIndex(matching: .hiddenControlItem).map({ items.remove(at: $0) }) {
-                                items.trimPrefix { $0.bounds.maxX <= hiddenControlItem.bounds.minX }
-                            }
+                        } else if
+                            // Only while the hidden section stays hidden (as with the Ice Bar):
+                            // once it is shown, the items left of its divider are the ones
+                            // that were just revealed, and they are what may cover the menus.
+                            self.section(withName: .hidden)?.controlItem.state == .hideSection,
+                            let hiddenControlItem = items.firstIndex(matching: .hiddenControlItem).map({ items.remove(at: $0) })
+                        {
+                            items.trimPrefix { $0.bounds.maxX <= hiddenControlItem.bounds.minX }
                         }
 
                         // Get the leftmost item on the screen.

@@ -242,7 +242,7 @@
 /* macOS 27 native menu bar. */
 "app.native.title" = "Sections de la barre des menus sous macOS 27";
 "app.native.explanation" = "Choisissez une section pour chaque app. Toutes les icônes d'une même app dans la barre des menus partagent la même section. Utilisez l'icône Ice 2 ou vos raccourcis pour afficher et masquer les sections.";
-"app.native.limitations" = "Concentration et certains extras système peuvent aussi disparaître lorsque des éléments sont masqués. La visibilité des sections s'applique à tous les écrans. Faites glisser avec Commande dans la barre des menus pour changer l'ordre des icônes ; sous macOS 27, les profils enregistrent la section de chaque élément.";
+"app.native.limitations" = "Tant que des éléments sont masqués, macOS retire aussi Concentration, le changement rapide d'utilisateur et d'autres extras système, et cliquer sur l'horloge n'ouvre pas le centre de notifications. La visibilité des sections s'applique à tous les écrans. Faites glisser avec Commande dans la barre des menus pour changer l'ordre des icônes ; sous macOS 27, les profils enregistrent la section de chaque élément.";
 "app.native.inlineReveal" = "Sous macOS 27, les éléments masqués apparaissent directement dans la barre des menus. La barre Ice 2 séparée n'est pas disponible.";
 "app.native.assignments" = "Apps et éléments système";
 "app.native.systemManaged" = "Gérés par macOS";

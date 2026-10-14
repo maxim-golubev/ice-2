@@ -97,12 +97,12 @@ final class MenuBarItemSpacingManager {
                         """
                     )
                     app.forceTerminate()
-                    // Failsafe: if KVO doesn't fire after force terminate, resume anyway.
                     try? await Task.sleep(for: .seconds(1))
-                    cancellable?.cancel()
-                    if didResume.tryClaimOnce() {
-                        continuation.resume()
-                    }
+                }
+                // Failsafe: if KVO never reported the termination, resume anyway.
+                cancellable?.cancel()
+                if didResume.tryClaimOnce() {
+                    continuation.resume()
                 }
             }
 

@@ -4,6 +4,7 @@
 //
 
 import Cocoa
+import os
 
 /// A structural representation of a menu bar item.
 struct MenuBarItem: CustomStringConvertible {
@@ -293,7 +294,8 @@ extension MenuBarItem {
     ///   - option: Options that filter the returned list. Pass an empty option set
     ///     to return all available menu bar items.
     static func getMenuBarItems(on display: CGDirectDisplayID? = nil, option: ListOption) async -> [MenuBarItem] {
-        if #available(macOS 26.0, *) {
+        // The service runs only on macOS 26; see `AppState`.
+        if #available(macOS 26.0, *), !NativeMenuBarManager.usesNativeBackend {
             await getMenuBarItemsExperimental(on: display, option: option)
         } else {
             getMenuBarItemsLegacyMethod(on: display, option: option)
@@ -353,7 +355,9 @@ private extension MenuBarItemTag {
 // MARK: - MenuBarItemTag.Namespace Helper
 
 private extension MenuBarItemTag.Namespace {
-    private static var uuidCache = [CGWindowID: UUID]()
+    /// Locked because items are listed from nonisolated async code, which
+    /// overlapping cache tasks and the app-menu check can run at the same time.
+    private static let uuidCache = OSAllocatedUnfairLock(initialState: [CGWindowID: UUID]())
 
     /// Creates a namespace without checks.
     ///
@@ -409,12 +413,13 @@ private extension MenuBarItemTag.Namespace {
             return
         }
 
-        if let uuid = Self.uuidCache[itemWindow.windowID] {
-            self = .uuid(uuid)
-        } else {
+        self = .uuid(Self.uuidCache.withLock { cache in
+            if let uuid = cache[itemWindow.windowID] {
+                return uuid
+            }
             let uuid = UUID()
-            Self.uuidCache[itemWindow.windowID] = uuid
-            self = .uuid(uuid)
-        }
+            cache[itemWindow.windowID] = uuid
+            return uuid
+        })
     }
 }

@@ -242,7 +242,7 @@
 /* macOS 27 native menu bar. */
 "app.native.title" = "macOS 27의 메뉴 막대 섹션";
 "app.native.explanation" = "각 앱의 섹션을 선택하십시오. 같은 앱의 메뉴 막대 아이콘은 모두 같은 섹션에 속합니다. Ice 2 아이콘이나 단축키로 섹션을 표시하거나 가릴 수 있습니다.";
-"app.native.limitations" = "항목을 가리는 동안 집중 모드와 일부 시스템 항목도 사라질 수 있습니다. 섹션의 표시 상태는 모든 디스플레이에 적용됩니다. 아이콘 순서를 바꾸려면 메뉴 막대에서 Command 키를 누른 채 드래그하십시오. macOS 27에서 프로파일은 각 항목이 속한 섹션을 저장합니다.";
+"app.native.limitations" = "항목을 가리는 동안에는 macOS가 집중 모드, 빠른 사용자 전환 및 일부 시스템 항목도 제거하며, 시계를 클릭해도 알림 센터가 열리지 않습니다. 섹션의 표시 상태는 모든 디스플레이에 적용됩니다. 아이콘 순서를 바꾸려면 메뉴 막대에서 Command 키를 누른 채 드래그하십시오. macOS 27에서 프로파일은 각 항목이 속한 섹션을 저장합니다.";
 "app.native.inlineReveal" = "macOS 27에서는 숨겨진 항목이 메뉴 막대에 바로 표시됩니다. 별도의 Ice 2 막대는 사용할 수 없습니다.";
 "app.native.assignments" = "앱 및 시스템 항목";
 "app.native.systemManaged" = "macOS에서 관리";

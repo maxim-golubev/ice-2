@@ -468,19 +468,19 @@ final class ControlItem {
 
         switch event.type {
         case .leftMouseDown:
-            let modifierFlags = NSEvent.modifierFlags.intersection(.deviceIndependentFlagsMask)
+            let modifiers = Modifiers(nsEventFlags: NSEvent.modifierFlags)
             let canShowContextMenus = appState.settings.advanced.enableSecondaryContextMenu
 
             // Running this from a Task seems to improve the visual
             // responsiveness of the status item's button.
             Task {
-                if modifierFlags == .control, canShowContextMenus {
+                if modifiers == .control, canShowContextMenus {
                     showMenu()
                     return
                 }
 
                 if
-                    modifierFlags == .option,
+                    modifiers == .option,
                     let section = menuBarManager.section(withName: .alwaysHidden),
                     section.isEnabled
                 {

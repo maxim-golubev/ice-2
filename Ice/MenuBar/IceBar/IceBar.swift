@@ -214,6 +214,11 @@ final class IceBarPanel: NSPanel {
             Logger.default.error("Cache update failed when showing IceBarPanel - \(error)")
         }
 
+        // Closed, or switched to another section, while the caches were updating.
+        guard currentSection == section, appState.navigationState.isIceBarPresented else {
+            return
+        }
+
         let hostingView = IceBarHostingView(
             appState: appState,
             colorManager: colorManager,

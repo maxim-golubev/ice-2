@@ -190,7 +190,7 @@
 
 "app.native.title" = "Menu bar sections on macOS 27";
 "app.native.explanation" = "Choose a section for each app. All menu bar icons from the same app share a section. Use the Ice icon or your hotkeys to show and hide sections.";
-"app.native.limitations" = "Focus and some system extras may also disappear while items are hidden. Section visibility applies across displays. Use Command-drag in the menu bar to change icon order; profiles save section membership on macOS 27.";
+"app.native.limitations" = "While items are hidden, macOS also removes Focus, Fast User Switching and some other system extras, and clicking the clock does not open Notification Center. Section visibility applies across displays. Use Command-drag in the menu bar to change icon order; profiles save section membership on macOS 27.";
 "app.native.inlineReveal" = "On macOS 27, hidden items appear directly in the menu bar. The separate Ice Bar is unavailable.";
 "app.native.unavailableActions" = "Per-icon search, temporary reveal, and the separate Ice Bar are unavailable on macOS 27. Use section toggles or Layout instead.";
 "app.native.assignments" = "Apps and system items";

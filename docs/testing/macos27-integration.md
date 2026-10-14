@@ -40,7 +40,7 @@ invents window IDs. macOS 26 and earlier continue to use the legacy backend.
 
 ## Limitations shown in the app
 
-* Focus and other system extras can disappear as a side effect of assessment mode.
+* Focus, Fast User Switching and other system extras disappear as a side effect of assessment mode, and Notification Center does not open from the clock while it is held.
 * Clock, Control Center, SystemUIServer extras and unmapped native items cannot
   be independently assigned through this backend.
 * Separate Ice Bar, per-icon search and temporary per-icon reveal are unavailable.

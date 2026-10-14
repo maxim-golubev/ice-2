@@ -218,10 +218,10 @@ extension HIDEventManager {
     // MARK: Handle Show On Click
 
     private func handleShowOnClick(with event: NSEvent, appState: AppState, screen: NSScreen) {
-        let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        let modifiers = Modifiers(nsEventFlags: event.modifierFlags)
         let alwaysHiddenSection = appState.menuBarManager.section(withName: .alwaysHidden)
         let canOptionToggleAlwaysHidden =
-            modifierFlags == .option &&
+            modifiers == .option &&
             alwaysHiddenSection?.isEnabled == true
 
         guard
@@ -239,7 +239,7 @@ extension HIDEventManager {
         }
 
         Task {
-            if modifierFlags == .control {
+            if modifiers == .control {
                 handleSecondaryContextMenu(appState: appState, screen: screen)
                 return
             }
@@ -362,7 +362,7 @@ extension HIDEventManager {
             return false
         }
 
-        let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        let modifiers = Modifiers(nsEventFlags: event.modifierFlags)
         guard modifiers.contains([.option, .command]) else {
             return false
         }
@@ -624,6 +624,9 @@ extension HIDEventManager {
     func isMouseInsideMenuBarItem(appState: AppState, screen: NSScreen) -> Bool {
         guard let mouseLocation = MouseHelpers.locationCoreGraphics else {
             return false
+        }
+        if NativeMenuBarManager.usesNativeBackend {
+            return AXHelpers.isMenuBarAgentStatusItem(at: mouseLocation)
         }
         let windowIDs = Bridging.getMenuBarWindowList(option: [.onScreen, .activeSpace, .itemsOnly])
         return windowIDs.contains { windowID in

@@ -188,7 +188,10 @@ final class MenuBarSection {
                     case .alwaysHidden:
                         await menuBarManager.iceBarPanel.show(section: .alwaysHidden, on: screen)
                     }
-                    startRehideChecks()
+                    // Hidden again while the Ice Bar was loading.
+                    if !isHidden {
+                        startRehideChecks()
+                    }
                 }
             }
 
@@ -271,7 +274,10 @@ final class MenuBarSection {
 
     /// Starts running checks to determine when to rehide the section.
     private func startRehideChecks() {
+        // Cleared, not just invalidated: a timer that has already fired stays
+        // non-nil, and the monitor below only schedules a new one when it is nil.
         rehideTimer?.invalidate()
+        rehideTimer = nil
         rehideMonitor?.stop()
 
         guard
