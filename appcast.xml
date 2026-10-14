@@ -3,6 +3,22 @@
     <channel>
         <title>Ice 2</title>
         <item>
+            <title>2.17.2</title>
+            <pubDate>Wed, 14 Oct 2026 20:36:42 +0000</pubDate>
+            <sparkle:version>1418</sparkle:version>
+            <sparkle:shortVersionString>2.17.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <description><![CDATA[<ul><p>Fixes for the Layout settings and for showing hidden items on macOS 15.</p>
+<li>Items dragged one after another in the Layout settings move in the order they were dropped, and the layout shown always matches the menu bar, also after a failed move or a cancelled drag.</li>
+<li>Show on click, hover and scroll work with the Ice 2 icon hidden, in full-screen apps, and with the menu bar set to hide automatically.</li>
+<li>"Always hide the menu bar" is detected again.</li>
+<li>Settings keeps what you were doing when another window covers it.</li>
+<li>Applying a profile is no longer undone by a temporarily shown item, and shown items stay in the lists.</li>
+<li>Focused app rehide only acts while auto-rehide is on, and no longer undoes a trigger.</li></ul>]]></description>
+            <enclosure url="https://github.com/maxim-golubev/ice-2/releases/download/v2.17.2/Ice-2-2.17.2.zip" length="3951605" type="application/octet-stream" sparkle:edSignature="ehrdBH3uj09jy3XT98uvWIVjHKSjbaTOFbzZMg/lF2baXRSKGLEllSGtDLGmrp/FfqX8+0jYKOR2wbH5HykkBQ=="/>
+        </item>
+        <item>
             <title>2.17.1</title>
             <pubDate>Wed, 14 Oct 2026 19:48:40 +0000</pubDate>
             <sparkle:version>1413</sparkle:version>
