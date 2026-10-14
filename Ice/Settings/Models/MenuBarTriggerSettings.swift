@@ -172,6 +172,16 @@ final class MenuBarTriggerSettings: ObservableObject {
         candidateApplicationName = name
     }
 
+    /// Whether a trigger shows the hidden section while `app` is frontmost.
+    func showsHiddenSection(whenFrontmost app: NSRunningApplication?) -> Bool {
+        guard let bundleIdentifier = app?.bundleIdentifier else {
+            return false
+        }
+        return triggers.contains { trigger in
+            trigger.action == .showHiddenSection && trigger.matches(frontmostBundleIdentifier: bundleIdentifier)
+        }
+    }
+
     private func performTriggers(for app: NSRunningApplication?) {
         guard
             let appState,

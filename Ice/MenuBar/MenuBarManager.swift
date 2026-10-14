@@ -104,11 +104,13 @@ final class MenuBarManager: ObservableObject {
             }
             .store(in: &c)
 
-        if
-            let hiddenSection = section(withName: .alwaysHidden),
-            let window = hiddenSection.controlItem.window
-        {
-            window.publisher(for: \.frame)
+        // Through the divider's published window: this runs before the
+        // sections are set up, when no control item has a window yet, so
+        // reading `window` here found none and the observer was never added.
+        if let hiddenSection = section(withName: .hidden) {
+            hiddenSection.controlItem.$window
+                .compactMap { $0 }
+                .flatMap { $0.publisher(for: \.frame) }
                 .map { $0.origin.y }
                 .removeDuplicates()
                 .receive(on: DispatchQueue.main)
@@ -127,11 +129,15 @@ final class MenuBarManager: ObservableObject {
         // Handle the `focusedApp` rehide strategy.
         NSWorkspace.shared.publisher(for: \.frontmostApplication)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] app in
+                // Like the other strategies, only while auto-rehide is on; and
+                // not for an app whose trigger has just shown the section.
                 if
                     let self,
                     let appState,
+                    appState.settings.general.autoRehide,
                     case .focusedApp = appState.settings.general.rehideStrategy,
+                    !appState.settings.triggers.showsHiddenSection(whenFrontmost: app),
                     let hiddenSection = section(withName: .hidden),
                     let screen = appState.hidEventManager.bestScreen(appState: appState),
                     !appState.hidEventManager.isMouseInsideMenuBar(appState: appState, screen: screen)

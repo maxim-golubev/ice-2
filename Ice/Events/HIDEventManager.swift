@@ -377,6 +377,12 @@ extension HIDEventManager {
     private func handleMenuBarItemDragStop() {
         if isDraggingMenuBarItem {
             isDraggingMenuBarItem = false
+            // The user rearranged the real menu bar: refresh the lists once the
+            // item has settled, rather than at the next 30-second poll.
+            Task { [weak appState] in
+                try? await Task.sleep(for: .milliseconds(300))
+                await appState?.itemManager.cacheItemsIfNeeded()
+            }
         }
     }
 
@@ -565,17 +571,6 @@ extension HIDEventManager {
     /// A Boolean value that indicates whether the mouse pointer is within
     /// the bounds of the menu bar.
     func isMouseInsideMenuBar(appState: AppState, screen: NSScreen) -> Bool {
-        // Ice icon must be vertically visible. Otherwise, we can infer
-        // that the menu bar is hidden and the mouse is not inside.
-        guard
-            let iceIcon = appState.menuBarManager.controlItem(withName: .visible),
-            let iceIconFrame = iceIcon.frame,
-            iceIconFrame.maxY <= screen.frame.maxY,
-            let mouseLocation = MouseHelpers.locationAppKit
-        else {
-            return false
-        }
-
         if
             !NSScreen.screensHaveSeparateSpaces,
             let activeMenuBarScreen = NSScreen.screenWithActiveMenuBar,
@@ -585,6 +580,21 @@ extension HIDEventManager {
         }
 
         if NSScreen.screenWithMouse?.displayID != screen.displayID {
+            return false
+        }
+
+        if #unavailable(macOS 26.0) {
+            return isMouseInsideMenuBarWindow(appState: appState, screen: screen)
+        }
+
+        // Ice icon must be vertically visible. Otherwise, we can infer
+        // that the menu bar is hidden and the mouse is not inside.
+        guard
+            let iceIcon = appState.menuBarManager.controlItem(withName: .visible),
+            let iceIconFrame = iceIcon.frame,
+            iceIconFrame.maxY <= screen.frame.maxY,
+            let mouseLocation = MouseHelpers.locationAppKit
+        else {
             return false
         }
 
@@ -603,6 +613,31 @@ extension HIDEventManager {
         mouseLocation.x <= screen.frame.maxX &&
         mouseLocation.y <= screen.frame.maxY &&
         mouseLocation.y >= menuBarMinY
+    }
+
+    /// Before macOS 26: whether the pointer is in the menu bar, as Ice 0.11.12
+    /// decided it there. When the bar slides in and out (in a full-screen
+    /// space, or with the menu bar set to hide), the window server's menu bar
+    /// window says where it is; otherwise it is the strip above the visible
+    /// frame. Unlike the macOS 26 test, this does not depend on the Ice icon
+    /// being shown.
+    private func isMouseInsideMenuBarWindow(appState: AppState, screen: NSScreen) -> Bool {
+        if appState.menuBarManager.isMenuBarHiddenBySystem || appState.activeSpace.isFullscreen {
+            guard
+                let mouseLocation = MouseHelpers.locationCoreGraphics,
+                let menuBarWindow = WindowInfo.menuBarWindow(for: screen.displayID)
+            else {
+                return false
+            }
+            return menuBarWindow.bounds.contains(mouseLocation)
+        }
+        guard let mouseLocation = MouseHelpers.locationAppKit else {
+            return false
+        }
+        return mouseLocation.x >= screen.frame.minX &&
+        mouseLocation.x <= screen.frame.maxX &&
+        mouseLocation.y <= screen.frame.maxY &&
+        mouseLocation.y > screen.visibleFrame.maxY
     }
 
     /// A Boolean value that indicates whether the mouse pointer is within
