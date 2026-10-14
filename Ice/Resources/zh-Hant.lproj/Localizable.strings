@@ -234,10 +234,12 @@
 "app.uninstall.item.state" = "已儲存的應用程式狀態";
 "app.updates.notification.body" = "%@ 找到了更新的版本。";
 "app.updates.notification.title" = "有新的更新可用";
-"app.whatsNew.changed1" = "「設定」中的滑桿現在是 macOS 標準滑桿，每一段都有刻度，並在旁邊顯示目前的數值。";
-"app.whatsNew.fixed1" = "在 macOS 27 上，「隱藏」和「總是隱藏」區段在其項目隱藏時，不會再在選單列中留下空隙，因此每次顯示和隱藏時間距都保持不變。";
-"app.whatsNew.fixed2" = "macOS 27 的版面編輯器現已翻譯。先前它在 Ice 2 支援的其他所有語言中都顯示為英文。";
-"app.whatsNew.summary" = "這是針對 macOS 27 的維護更新。隱藏的區段不會再在選單列中留下空隙，版面編輯器已完成翻譯，「設定」中的滑桿也改用 macOS 標準樣式。";
+"app.whatsNew.added1" = "Ice 2 可以在 macOS 15 Sequoia 上執行。";
+"app.whatsNew.added2" = "「設定」中的語言新增了俄文，錯誤提示也已翻譯。";
+"app.whatsNew.fixed1" = "開啟大寫鎖定時，Ice 2 會無限期等待，遲遲不移動、按一下或重新隱藏選單列項目。現在大寫鎖定不再造成影響。";
+"app.whatsNew.fixed2" = "解除安裝 Ice 2 後或尚未更改任何設定時結束，不會再寫入空的備份；回復這種備份會重置你的設定。";
+"app.whatsNew.fixed3" = "在 macOS 27 上，按一下時鐘等選單列圖像不會再顯示「隱藏」區段。";
+"app.whatsNew.summary" = "Ice 2 現在除了 macOS 26 和 27，也能在 macOS 15 Sequoia 上執行，新增俄文，並修正了多個錯誤。";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "macOS 27 上的選單列區段";

@@ -234,10 +234,12 @@
 "app.uninstall.item.state" = "État enregistré de l'application";
 "app.updates.notification.body" = "%@ a trouvé une version plus récente.";
 "app.updates.notification.title" = "Une nouvelle mise à jour est disponible";
-"app.whatsNew.changed1" = "Les curseurs des réglages sont désormais des curseurs macOS standard, avec une graduation pour chaque cran et la valeur affichée à côté.";
-"app.whatsNew.fixed1" = "Sur macOS 27, les sections Masquée et Toujours masquée ne laissent plus d'espace vide dans la barre des menus lorsque leurs éléments sont masqués ; l'espacement ne change donc plus chaque fois que vous les affichez ou les masquez.";
-"app.whatsNew.fixed2" = "L'éditeur de Disposition de macOS 27 est désormais traduit. Il s'affichait en anglais dans toutes les autres langues d'Ice 2.";
-"app.whatsNew.summary" = "Une mise à jour de maintenance pour macOS 27. Les sections masquées ne laissent plus d'espace vide dans la barre des menus, l'éditeur de Disposition est désormais traduit et les curseurs des réglages adoptent le style standard de macOS.";
+"app.whatsNew.added1" = "Ice 2 fonctionne sous macOS 15 Sequoia.";
+"app.whatsNew.added2" = "Le russe fait désormais partie des langues des réglages, et les alertes d'erreur sont elles aussi traduites.";
+"app.whatsNew.fixed1" = "Avec le verrouillage des majuscules activé, Ice 2 attendait indéfiniment avant de déplacer, de cliquer ou de masquer à nouveau les éléments de la barre des menus. Le verrouillage des majuscules ne gêne plus.";
+"app.whatsNew.fixed2" = "Quitter Ice 2 après l'avoir désinstallé, ou avant d'avoir modifié un réglage, n'écrit plus de sauvegarde vide qui réinitialiserait vos réglages si vous la restauriez.";
+"app.whatsNew.fixed3" = "Sur macOS 27, cliquer sur une icône de la barre des menus, comme l'horloge, n'affiche plus la section Masquée.";
+"app.whatsNew.summary" = "Ice 2 fonctionne désormais sous macOS 15 Sequoia en plus de macOS 26 et 27, parle russe et corrige plusieurs bugs.";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "Sections de la barre des menus sous macOS 27";

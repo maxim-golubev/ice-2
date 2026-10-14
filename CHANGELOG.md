@@ -1,25 +1,52 @@
 # Changelog
 
-## Unreleased
+## 2.17.0 - 2026-10-14
+
+The first release of this fork (maxim-golubev/ice-2). It has its own bundle id
+(`com.maximgolubev.Ice2`), signing and update feed, so it installs beside Teddy Chan's Ice 2
+rather than over it, with separate settings and permissions.
 
 ### Added
 
-- **Ice 2 speaks Russian.** Русский is now in the **Language** control in Settings ▸ General,
-  alongside the other seven, and switches the whole app live like they do. Thanks to
-  [@shendrykau](https://github.com/shendrykau), who translated all of Ice 2 and DragonKit and
-  matched the wording Apple's Russian macOS uses (#132).
+- **macOS 15 Sequoia.** The deployment target goes from macOS 26 to 15. On macOS 15 items take
+  their window owner as their source, the macOS 26 XPC helper is not started, and the menu bar
+  metrics are the pre-26 ones. DragonKit 4.2.0 is copied into `Packages/DragonKit` with its
+  platform lowered, as the published package requires macOS 26.
+- **Russian.** Translation by [@shendrykau](https://github.com/shendrykau)
+  (teddychan/ice-2#132, #134), with DragonKit's Russian strings.
 
 ### Fixed
 
-- **Error alerts are translated.** A failed layout profile, a failed item move and apps that did
-  not relaunch after a spacing change all showed their alert in English, whatever language Ice 2
-  was set to. @shendrykau spotted the four messages in #132. The item-move alert's titles were
-  English too, so all 12 strings are now translated into every language.
+- **Caps Lock** no longer holds every item move, click and rehide, and no longer breaks
+  Option-click and Control-click on the Ice icon and in the menu bar.
+- **Stuck moves.** A move or click whose closing event never came back waited for good, with the
+  cursor hidden and the menu bar handlers stopped. It now times out.
+- **Stranded items.** A temporarily shown item goes back even when the item next to it was
+  recreated or its app quit (to the Hidden section in that case).
+- **Empty backups.** Quitting with no settings stored, as right after Uninstall, wrote an empty
+  backup, pruned a real one and became the newest to restore, resetting everything. Backups
+  without settings are refused on restore, and file names are stamped in UTC so backups synced
+  between time zones sort correctly.
+- **Settings that fail to load** are no longer overwritten with the defaults right away.
+- **Remove menu bar background** keeps the app menus and status items clear; their frames were
+  compared in the wrong coordinate system.
+- **Dynamic appearance** styled only for the other light/dark mode now appears once the system
+  switches to it.
+- **Ice Bar and search panel** no longer appear after being closed while loading; timed rehide
+  keeps working after a deferred check.
+- **Hide application menus** works with the Always-Hidden section turned off.
+- **Settings ▸ Permissions** reports Screen Recording with the app's own probe.
+- **macOS 27:** clicking an icon such as the clock no longer counts as a click on empty menu bar
+  space and toggles the Hidden section (teddychan/ice-2#135). The in-app limitation text says
+  that macOS also removes Fast User Switching while items are hidden (teddychan/ice-2#136), and
+  that Notification Center cannot open from the clock then (teddychan/ice-2#137).
+- **Error alerts are translated** (layout profile, item move, item spacing).
 
-### Internal
+### Changed
 
-- DragonKit 4.1.2 → 4.2.0, the release that adds Russian to the shared screens and the language
-  control.
+- Updates come from this repository's `appcast.xml`, signed with this fork's key. Releases are
+  built with `scripts/release.sh` and published with `scripts/publish.sh`; the CI release
+  workflow and the Homebrew cask are gone.
 
 ## 2.16.1 - 2026-09-28
 

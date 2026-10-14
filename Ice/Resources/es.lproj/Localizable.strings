@@ -234,10 +234,12 @@
 "app.uninstall.item.state" = "Estado guardado de la aplicación";
 "app.updates.notification.body" = "%@ ha encontrado una versión más reciente.";
 "app.updates.notification.title" = "Hay una nueva actualización disponible";
-"app.whatsNew.changed1" = "Los reguladores de los ajustes son ahora reguladores estándar de macOS, con una marca por cada paso y el valor al lado.";
-"app.whatsNew.fixed1" = "En macOS 27, las secciones Oculta y Siempre oculta ya no dejan un hueco vacío en la barra de menús mientras sus elementos están ocultos, así que la separación no cambia cada vez que los muestras y los ocultas.";
-"app.whatsNew.fixed2" = "El editor de Disposición de macOS 27 ya está traducido. Antes aparecía en inglés en todos los demás idiomas de Ice 2.";
-"app.whatsNew.summary" = "Una actualización de mantenimiento para macOS 27. Las secciones ocultas ya no dejan un hueco en la barra de menús, el editor de Disposición ya está traducido y los reguladores de los ajustes usan el estilo estándar de macOS.";
+"app.whatsNew.added1" = "Ice 2 funciona en macOS 15 Sequoia.";
+"app.whatsNew.added2" = "El ruso es ahora uno de los idiomas de los ajustes, y los avisos de error también están traducidos.";
+"app.whatsNew.fixed1" = "Con el bloqueo de mayúsculas activado, Ice 2 esperaba indefinidamente para mover, pulsar y volver a ocultar elementos de la barra de menús. El bloqueo de mayúsculas ya no interfiere.";
+"app.whatsNew.fixed2" = "Salir de Ice 2 después de desinstalarlo, o antes de cambiar ningún ajuste, ya no crea una copia de seguridad vacía que restablecería tus ajustes si la restauraras.";
+"app.whatsNew.fixed3" = "En macOS 27, hacer clic en un icono de la barra de menús, como el reloj, ya no muestra la sección Oculta.";
+"app.whatsNew.summary" = "Ice 2 ahora funciona en macOS 15 Sequoia además de macOS 26 y 27, habla ruso y corrige varios errores.";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "Secciones de la barra de menús en macOS 27";

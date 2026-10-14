@@ -18,7 +18,9 @@ identity and the Sparkle key. Nothing runs in CI.
 ## Cutting a release
 
 1. Bump `MARKETING_VERSION` in `Ice.xcodeproj` (app target, Debug and Release),
-   add the version's entry to `CHANGELOG.md`, and commit. The build number is
+   add the version's entry to `CHANGELOG.md`, rewrite the What's New pane
+   (`Ice/Settings/WhatsNewConfig.swift` and the `app.whatsNew.*` strings in
+   every language), and commit. The build number is
    not edited by hand: `scripts/release.sh` sets `CURRENT_PROJECT_VERSION` to
    the commit count, which only grows, and Sparkle compares it.
 2. `scripts/release.sh` builds a clean Release of HEAD, checks the signature
