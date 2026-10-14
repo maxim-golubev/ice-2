@@ -198,7 +198,7 @@ final class MenuBarItemSpacingManager {
                     continue
                 }
                 // The *other* build of Ice 2, which `.current` doesn't cover: an installed
-                // release (com.dragonapp.ice) and a local debug build (com.dragonapp.ice.debug)
+                // release (com.maximgolubev.Ice2) and a local debug build (com.maximgolubev.Ice2.debug)
                 // are two processes with two status items. A relaunch is a terminate, and
                 // MAC-APP-RELEASE-LIFECYCLE.md requires that changing a setting in the debug
                 // build never terminates the installed release — the two must survive being

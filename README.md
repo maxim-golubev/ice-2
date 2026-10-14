@@ -35,10 +35,9 @@ profiles, and searches your items.
 
 ![Backup and restore](Resources/screenshots/settings-backup.png)
 
-[![Download](https://img.shields.io/badge/download-latest-brightgreen?style=flat-square)](https://github.com/teddychan/ice-2/releases/latest)
+[![Download](https://img.shields.io/badge/download-latest-brightgreen?style=flat-square)](https://github.com/maxim-golubev/ice-2/releases/latest)
 ![Platform](https://img.shields.io/badge/platform-macOS-blue?style=flat-square)
-![Requirements](https://img.shields.io/badge/requirements-macOS%2026%2B-fa4e49?style=flat-square)
-[![Website](https://img.shields.io/badge/Website-dragonapp.com-015FBA?style=flat-square)](https://www.dragonapp.com/ice-2/)
+![Requirements](https://img.shields.io/badge/requirements-macOS%2015%2B-fa4e49?style=flat-square)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue?style=flat-square)](LICENSE)
 
 ## Contents
@@ -57,53 +56,39 @@ profiles, and searches your items.
 
 ## Requirements
 
-- macOS 26 (Tahoe) or later.
-- An Apple Silicon Mac. Ice 2 is built for arm64 only; if you are on an Intel Mac,
-  stay on version 2.4.1, which remains available on the
-  [releases page](https://github.com/teddychan/ice-2/releases).
+- macOS 15 (Sequoia) or later. macOS 26 (Tahoe) and macOS 27 are supported too.
+- An Apple Silicon Mac. Ice 2 is built for arm64 only.
 - Accessibility and Screen Recording permissions. Ice 2 asks for both on first
   launch and cannot manage menu bar items without them.
 
 ## Install
 
-### Homebrew
+Download `Ice-2-X.Y.Z.zip` from the
+[latest release](https://github.com/maxim-golubev/ice-2/releases/latest), unzip it,
+and move `Ice 2.app` into your `Applications` folder. Ice 2 then updates itself
+through **Settings ▸ Updates**.
 
-```sh
-brew install --cask teddychan/tap/ice-2
-```
-
-### Manual
-
-Download the `Ice-2-vX.Y.Z.zip` file from the
-[latest release](https://github.com/teddychan/ice-2/releases/latest) and move the
-unzipped app into your `Applications` folder.
+Releases are signed with an Apple Development certificate and are not notarized, so
+the first time you open a download on a Mac other than the one that built it, macOS
+refuses it: open **System Settings ▸ Privacy & Security** and choose **Open Anyway**.
 
 ### Uninstall
 
-Quit Ice 2 before uninstalling.
-
-If you installed with Homebrew:
-
-```sh
-brew uninstall --cask teddychan/tap/ice-2
-```
-
-If you installed manually, delete `Ice 2.app` from your `Applications` folder.
-
-To also remove Ice 2 settings and cached data:
+Use **Settings ▸ Uninstall**, or quit Ice 2 and delete `Ice 2.app` from your
+`Applications` folder. To also remove its settings and cached data:
 
 ```sh
-rm -rf ~/Library/Application\ Support/com.dragonapp.ice \
-       ~/Library/Caches/com.dragonapp.ice \
-       ~/Library/HTTPStorages/com.dragonapp.ice \
-       ~/Library/Preferences/com.dragonapp.ice.plist \
-       ~/Library/Saved\ Application\ State/com.dragonapp.ice.savedState
+rm -rf ~/Library/Application\ Support/com.maximgolubev.Ice2 \
+       ~/Library/Caches/com.maximgolubev.Ice2 \
+       ~/Library/HTTPStorages/com.maximgolubev.Ice2 \
+       ~/Library/Preferences/com.maximgolubev.Ice2.plist \
+       ~/Library/Saved\ Application\ State/com.maximgolubev.Ice2.savedState
 ```
 
 ## Features
 
 > [!NOTE]
-> Ice 2 is an independent, open-source fork of [Ice](https://github.com/jordanbaird/Ice) — the menu bar manager originally created by [Jordan Baird](https://github.com/jordanbaird) — now actively maintained by [Teddy Chan](https://github.com/teddychan) and carried forward to support modern macOS. Download the latest release [here](https://github.com/teddychan/ice-2/releases/latest) and see the roadmap below for upcoming features.
+> This is a fork of [Teddy Chan's Ice 2](https://github.com/teddychan/ice-2), itself a fork of [Ice](https://github.com/jordanbaird/Ice), the menu bar manager created by [Jordan Baird](https://github.com/jordanbaird). It runs on macOS 15 as well as 26 and 27, and is published with its own update feed.
 
 ### Menu bar item management
 
@@ -177,13 +162,6 @@ If Ice 2 cannot see or move your menu bar items, check that it still has
 Accessibility and Screen Recording permission in **System Settings ▸ Privacy &
 Security**. Granting Screen Recording may require relaunching Ice 2.
 
-### Why does Ice 2 require macOS 26 and later?
-
-Ice 2 uses a number of system APIs that are available starting in macOS 26, and it
-builds against the macOS 26 SDK. As such, there are no plans to support earlier
-versions of macOS. Older releases remain downloadable on the
-[releases page](https://github.com/teddychan/ice-2/releases).
-
 ### Why does Ice 2 need network access?
 
 Only to check for and download updates, using [Sparkle](https://sparkle-project.org).
@@ -206,8 +184,8 @@ To **sync across Macs** or move to a new Mac, point the backup folder at a synce
 
 Ice 2 is a plain Xcode project — no package manager step is required.
 
-1. Clone the repo and open `Ice.xcodeproj` in Xcode 26 or later (the project targets
-   the macOS 26 SDK and builds for arm64).
+1. Clone the repo and open `Ice.xcodeproj` in Xcode 26 or later (the project builds
+   against the macOS 26 SDK for macOS 15 and later, arm64 only).
 2. Select the **Ice** scheme and run. The product is named `Ice 2.app`.
 
 From the command line:
@@ -219,7 +197,7 @@ xcodebuild -scheme Ice -destination 'platform=macOS' test
 
 The **Ice** scheme's test action runs the `IceTests` unit-test target.
 
-The Debug configuration builds the app as `com.dragonapp.ice.debug`, displayed as
+The Debug configuration builds the app as `com.maximgolubev.Ice2.debug`, displayed as
 **Ice 2 Debug**, never the release id — so neither a local build nor the test host
 (which runs *inside* the app) can read or write the settings of an installed Ice 2.
 The product itself is the isolated app; nothing re-ids it afterwards, so only one
@@ -250,18 +228,10 @@ event taps, or granted permissions is covered by the manual checklist in
 instead. CI runs the suite on every pull request; the Debug configuration signs ad-hoc,
 so no Apple Development certificate is needed to run it locally either.
 
-[![Tests](https://github.com/teddychan/ice-2/actions/workflows/tests.yml/badge.svg)](https://github.com/teddychan/ice-2/actions/workflows/tests.yml)
-
 ```bash
 xcodebuild test -project Ice.xcodeproj -scheme Ice \
   -destination 'platform=macOS,arch=arm64'
 ```
-
-| Metric | Value |
-|---|---|
-| Test cases | 261 passing |
-| Line coverage | 14.3% of the `Ice 2.app` target |
-| Measured on | v2.9.10 (`f55a610`), Xcode 26.6 on macOS 26.5.2 |
 
 Coverage is low by nature rather than by neglect: most of the app target is SwiftUI
 settings views and menu-bar machinery that needs live status items, event taps, and
@@ -276,12 +246,12 @@ Issues and pull requests are welcome.
 - Check [FREQUENT_ISSUES.md](FREQUENT_ISSUES.md) first — several common reports are
   already answered there.
 - Keep the build lint-clean; CI runs SwiftLint in strict mode.
-- Release mechanics (tagging, signing, notarization, the Sparkle appcast, and the
-  Homebrew cask) are documented in [docs/RELEASING.md](docs/RELEASING.md).
+- Release mechanics (signing, the GitHub release, and the Sparkle appcast) are
+  documented in [docs/RELEASING.md](docs/RELEASING.md).
 
 ## Credits
 
-Ice 2 is a fork of [Ice](https://github.com/jordanbaird/Ice), created by [Jordan Baird](https://github.com/jordanbaird). All credit for the original app goes to him and its contributors. Ice 2 is currently maintained by [Teddy Chan](https://github.com/teddychan).
+Ice 2 is a fork of [Ice](https://github.com/jordanbaird/Ice), created by [Jordan Baird](https://github.com/jordanbaird). All credit for the original app goes to him and its contributors. [Teddy Chan](https://github.com/teddychan) carried it forward as [Ice 2](https://github.com/teddychan/ice-2); this fork is maintained by [Maxim Golubev](https://github.com/maxim-golubev). The settings shell comes from Teddy Chan's [DragonKit](https://github.com/teddychan/dragon-kit) (MIT), copied into `Packages/DragonKit`.
 
 ## License
 

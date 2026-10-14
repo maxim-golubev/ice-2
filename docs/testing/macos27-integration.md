@@ -79,7 +79,7 @@ Manual checklist on macOS 27.0 (26A428):
    and new app launches before release. These require additional runtime coverage
    beyond the automated policy and lifecycle tests.
 
-The preview uses `com.dragonapp.ice.debug` with separate preferences. It does not
+The preview uses `com.maximgolubev.Ice2.debug` with separate preferences. It does not
 replace `/Applications/Ice 2.app` or automatically import release profiles. For the
 local verification session, a copy of the release profile was explicitly put into
 the preview's preferences; the release preferences were not modified.

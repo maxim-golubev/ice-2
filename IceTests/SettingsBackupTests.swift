@@ -242,7 +242,7 @@ struct SettingsBackupTests {
 
     @Test func defaultFolderIsDocumentsIceBackups() {
         let home = URL(fileURLWithPath: "/Users/test", isDirectory: true)
-        let folder = SettingsBackup.defaultFolder(home: home, bundleID: "com.dragonapp.ice")
+        let folder = SettingsBackup.defaultFolder(home: home, bundleID: "com.maximgolubev.Ice2")
         #expect(folder.path == "/Users/test/Documents/Ice Backups")
     }
 
@@ -252,7 +252,7 @@ struct SettingsBackupTests {
     /// Debug folder too, away from the release user's documents.
     @Test func defaultFolderIsNamespacedForAnythingButTheRelease() {
         let home = URL(fileURLWithPath: "/Users/test", isDirectory: true)
-        for id in ["com.dragonapp.ice.debug", nil] {
+        for id in ["com.maximgolubev.Ice2.debug", nil] {
             let folder = SettingsBackup.defaultFolder(home: home, bundleID: id)
             #expect(folder.path == "/Users/test/Documents/Ice Backups (Debug)")
         }

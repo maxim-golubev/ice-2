@@ -21,28 +21,28 @@ struct SmokeTests {
     /// the host bundle claims. If that were the release id, a test run would read and
     /// write the settings of the Ice 2 the user actually has installed.
     ///
-    /// The Debug configuration therefore builds the app as `com.dragonapp.ice.debug`,
+    /// The Debug configuration therefore builds the app as `com.maximgolubev.Ice2.debug`,
     /// which is what `scripts/run-debug.sh` already gives manual debug runs. This pins
     /// that: the release domain has to stay unreachable from the suite, so restoring
     /// the release id to the Debug configuration fails here instead of silently.
     ///
-    /// Asserted as equality rather than `!= "com.dragonapp.ice"` so it can't pass on a
+    /// Asserted as equality rather than `!= "com.maximgolubev.Ice2"` so it can't pass on a
     /// host with no bundle id at all.
     @Test func testHostNeverOwnsTheReleaseSettingsDomain() {
-        #expect(Bundle.main.bundleIdentifier == "com.dragonapp.ice.debug")
+        #expect(Bundle.main.bundleIdentifier == "com.maximgolubev.Ice2.debug")
     }
 
     /// The XPC service name the app connects to has to be the identifier the embedded service
     /// bundle actually registers under, and both have to be namespaced per build.
     ///
-    /// `MenuBarItemService.name` was the literal `com.dragonapp.ice.MenuBarItemService`, so the
+    /// `MenuBarItemService.name` was the literal `com.maximgolubev.Ice2.MenuBarItemService`, so the
     /// debug build and an installed release asked launchd for one name and could not be trusted
     /// to run side by side. Deriving it from `Bundle.main` fixes the client, but only if the XPC
     /// target's `PRODUCT_BUNDLE_IDENTIFIER` moves with it — the two live in different files and
     /// a mismatch is silent at build time and fatal at runtime (no service, so every menu bar
     /// item loses its source PID). Reading the embedded bundle checks the pair together.
     @Test func serviceNameMatchesTheEmbeddedServiceBundleIdentifier() throws {
-        #expect(MenuBarItemService.name == "com.dragonapp.ice.debug.MenuBarItemService")
+        #expect(MenuBarItemService.name == "com.maximgolubev.Ice2.debug.MenuBarItemService")
 
         let url = Bundle.main.bundleURL
             .appending(path: "Contents/XPCServices/MenuBarItemService.xpc")
@@ -55,12 +55,12 @@ struct SmokeTests {
     /// and a relaunch is a terminate, which the lifecycle spec forbids the debug build from
     /// doing to the installed release. `MenuBarTriggerSettings` asks it too.
     @Test func everyIceBuildIsRecognizedAsOurOwn() {
-        #expect(Constants.isIceBundleID("com.dragonapp.ice"))
-        #expect(Constants.isIceBundleID("com.dragonapp.ice.debug"))
+        #expect(Constants.isIceBundleID("com.maximgolubev.Ice2"))
+        #expect(Constants.isIceBundleID("com.maximgolubev.Ice2.debug"))
         // The running build is always one of ours, whichever build the suite is hosted in.
         #expect(Constants.isIceBundleID(Constants.bundleIdentifier))
         // Neither an unrelated app that merely starts with the same letters, nor a missing id.
-        #expect(!Constants.isIceBundleID("com.dragonapp.iceberg"))
+        #expect(!Constants.isIceBundleID("com.maximgolubev.Ice2berg"))
         #expect(!Constants.isIceBundleID("com.apple.controlcenter"))
         #expect(!Constants.isIceBundleID(nil))
     }

@@ -226,7 +226,7 @@ int main(int argc, const char *argv[]) {
         printf("Native hiding selectors available: %s\n", available ? "yes" : "no");
         Report(@"discovery", Snapshot());
         NSString *bundle = NSBundle.mainBundle.bundleIdentifier;
-        if (!selfTest && available && [bundle isEqual:@"com.dragonapp.ice.macos27-prototype"]) {
+        if (!selfTest && available && [bundle isEqual:@"com.maximgolubev.Ice2.macos27-prototype"]) {
             [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
             PrototypeController *controller = [PrototypeController new];
             NSApp.delegate = controller;
@@ -234,7 +234,7 @@ int main(int argc, const char *argv[]) {
             return 0;
         }
         if (!selfTest) return available && AXIsProcessTrusted() ? 0 : 2;
-        if (!available || !AXIsProcessTrusted() || ![bundle isEqual:@"com.dragonapp.ice.macos27-prototype"]) {
+        if (!available || !AXIsProcessTrusted() || ![bundle isEqual:@"com.maximgolubev.Ice2.macos27-prototype"]) {
             fprintf(stderr, "Self-test needs the prototype app bundle, native selectors and Accessibility permission.\n");
             return 2;
         }

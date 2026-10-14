@@ -1,69 +1,52 @@
 # Releasing Ice 2
 
-Pushing a `vX.Y.Z` tag to `teddychan/ice-2` triggers
-`.github/workflows/release.yml`, which builds, Developer ID-signs, notarizes,
-and staples the app, uploads `Ice-2-vX.Y.Z.zip` to the GitHub Release,
-publishes the signed Sparkle appcast to `docs/ice-2/appcast.xml` **in this
-repo**, and bumps the Homebrew cask `teddychan/tap/ice-2`.
+Releases are built, signed and published from the Mac that holds the signing
+identity and the Sparkle key. Nothing runs in CI.
 
-The app-owned feed is the one the app reads — `SUFeedURL` in
-`App/Info.plist` is
-`https://raw.githubusercontent.com/teddychan/ice-2/main/docs/ice-2/appcast.xml`.
-The same appcast was also copied to `teddychan/www.dragonapp.com`
-(`https://www.dragonapp.com/ice-2/appcast.xml`) during the v2.14.3–v2.15.0
-migration, as a **temporary mirror** for installs still on v2.14.3 or older.
-That mirror was retired at v2.15.0; `docs/ice-2/appcast.xml` in this repo has
-been the only production feed since. See the `appcast_mirror_repo` comment
-in `.github/workflows/release.yml` — that comment is the source of truth for
-the migration and its retirement.
+## What is needed
 
-## One-time setup
-
-### 1. Repository secrets (Settings → Secrets and variables → Actions)
-Reuse the same values already on `clipmenu-2` (same Apple Team `4AF3KGGV29`):
-
-- `DEVELOPER_ID_CERT_P12_BASE64`
-- `DEVELOPER_ID_CERT_PASSWORD`
-- `NOTARY_KEY_P8_BASE64`
-- `NOTARY_KEY_ID`
-- `NOTARY_ISSUER_ID`
-- `PUBLIC_RELEASE_TOKEN` (PAT with write access to `teddychan/homebrew-tap`,
-  used only for the Homebrew cask bump. The appcast in *this* repo is
-  published with the built-in `GITHUB_TOKEN`, which `permissions: contents:
-  write` in `release.yml` covers.)
-- `SPARKLE_EDDSA_PRIVATE_KEY` (the shared EdDSA private key; its public half
-  `p+F/ivF5bAYcmuNuCMNHcRv123A6LHFpCBagFm7Adu8=` is in `App/Info.plist`)
-
-### 2. Runner
-The workflow runs on a **GitHub-hosted** macOS runner — public repos get free
-Actions minutes, so no self-hosted runner is required. Ice 2 targets the macOS
-26 SDK, which the shared pipeline's default `macos-15` image lacks, so the
-caller passes `swiftpm_runner: macos-26`; despite the name that input drives
-the job's `runs-on` for all build kinds, not just swiftpm. The "Select Xcode"
-step then picks the newest Xcode on the image.
+- The **Apple Development** certificate of team `N42Q7FY9FL` in the login
+  keychain (`security find-identity -v -p codesigning` lists it). The Release
+  configuration signs manually with it, hardened runtime on. Releases are not
+  notarized, so a download opened on another Mac needs **Open Anyway** once.
+- The Sparkle EdDSA private key at `~/.ice2-signing/sparkle_ed25519` (base64 of
+  the 32-byte seed, mode 600). Its public half is `SUPublicEDKey` in
+  `App/Info.plist`. Back this file up: without it no installed copy accepts
+  another update, and a new key means everyone reinstalls by hand.
+- `gh` signed in to the `maxim-golubev` account.
 
 ## Cutting a release
-1. Bump `MARKETING_VERSION` in `Ice.xcodeproj` and commit.
-2. `git tag vX.Y.Z && git push origin vX.Y.Z`.
-3. Watch the Release workflow. On success, verify:
-   - The feed the app actually reads — prints X.Y.Z:
 
-     ```bash
-     curl -s https://raw.githubusercontent.com/teddychan/ice-2/main/docs/ice-2/appcast.xml | grep sparkle:shortVersionString
-     ```
+1. Bump `MARKETING_VERSION` in `Ice.xcodeproj` (app target, Debug and Release),
+   add the version's entry to `CHANGELOG.md`, and commit. The build number is
+   not edited by hand: `scripts/release.sh` sets `CURRENT_PROJECT_VERSION` to
+   the commit count, which only grows, and Sparkle compares it.
+2. `scripts/release.sh` builds a clean Release of HEAD, checks the signature
+   (identity, team, hardened runtime) before and after zipping, and writes
+   `build/release/Ice-2-<version>.zip` with its Sparkle signature beside it.
+   It refuses a dirty working tree.
+3. Use that build on this Mac before publishing it: quit Ice 2, replace
+   `/Applications/Ice 2.app` with
+   `ditto "build/release-dd/Build/Products/Release/Ice 2.app" "/Applications/Ice 2.app"`
+   (after moving the old copy away), and try everything the release changed.
+4. `git push`, then `scripts/publish.sh --notes-file ~/ice2-notes.md` (notes kept
+   outside the checkout). It refuses a build that is not of HEAD, a HEAD that is
+   not on `origin/main`, and an existing tag. It creates the GitHub release
+   `v<version>` with the zip, adds the release to the top of `appcast.xml`,
+   commits that and pushes it.
+5. Check the feed the app reads:
 
-     Check this URL, not `https://www.dragonapp.com/ice-2/appcast.xml`: that
-     copy is the retired mirror, frozen at v2.14.7 since the release path
-     stopped publishing to it at v2.15.0 — it will never show a new release,
-     cache or no cache.
-   - `brew update && brew livecheck teddychan/tap/ice-2` → X.Y.Z
-   - `spctl -a -t install` accepts the downloaded zip's app.
+   ```bash
+   curl -s https://raw.githubusercontent.com/maxim-golubev/ice-2/main/appcast.xml | grep shortVersionString
+   ```
 
 ## Notes
-- The app bundle id is `com.dragonapp.ice` (rebranded from the upstream
-  `com.jordanbaird.Ice`). Keep the cask's `uninstall`/`zap` paths in sync with
-  this id.
-- The first tagged run validates the `xcodebuild` export-signing path. If
-  `-exportArchive` errors on signing style, set `signingStyle` to `automatic` in
-  `.github/release/exportOptions.plist` and drop the manual `CODE_SIGN_*`
-  overrides from the archive step.
+
+- The bundle id is `com.maximgolubev.Ice2` (`com.maximgolubev.Ice2.debug` for
+  Debug builds); its settings, permissions and backups are separate from
+  Teddy Chan's Ice 2 (`com.dragonapp.ice`).
+- Keep only `/Applications/Ice 2.app` on the Mac. Spotlight and LaunchServices
+  list every other copy, so after installing, unregister and delete build
+  products that hold an app: `lsregister -u <path>` (in
+  `/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/`),
+  then `rm -rf` the copy.

@@ -3,15 +3,15 @@
 # run-debug.sh — build Ice and (re)launch the Debug product as "Ice 2 Debug".
 #
 # Why: a debug build must not share the installed app's bundle id
-# (com.dragonapp.ice), which collides on TCC permissions, the menu-bar manager,
+# (com.maximgolubev.Ice2), which collides on TCC permissions, the menu-bar manager,
 # and the UserDefaults domain. The Debug configuration handles that itself: it
-# sets PRODUCT_BUNDLE_IDENTIFIER to com.dragonapp.ice.debug and the display name
+# sets PRODUCT_BUNDLE_IDENTIFIER to com.maximgolubev.Ice2.debug and the display name
 # to "Ice 2 Debug", so the built product is already the isolated app and
 # `xcodebuild test` gets the same isolation without going through this script.
 #
 # This script therefore builds, stamps and launches — it deliberately does NOT
 # copy the product to a second bundle. An earlier version did, which left two
-# bundles claiming com.dragonapp.ice.debug in every DerivedData folder;
+# bundles claiming com.maximgolubev.Ice2.debug in every DerivedData folder;
 # LaunchServices then resolved that id ambiguously and could launch a stale build
 # instead of the one just built. One bundle per checkout, one id.
 #
@@ -38,16 +38,11 @@
 #
 # Usage: bash scripts/run-debug.sh
 #
-# This is the Ice-specific instance of a shared convention: every Dragon macOS
-# app builds its debug product as "<App> Debug" (<release-bundle-id>.debug).
-# Other repos can copy this and change the vars below. See the "dragon-mac-ops"
-# skill for the general recipe + rationale.
-#
 set -euo pipefail
 
 SCHEME="Ice"
 CONFIG="Debug"
-DEBUG_ID="com.dragonapp.ice.debug"
+DEBUG_ID="com.maximgolubev.Ice2.debug"
 DEBUG_NAME="Ice 2 Debug"
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

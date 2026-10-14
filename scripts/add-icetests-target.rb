@@ -16,7 +16,7 @@ if test.nil?
     s = config.build_settings
     # Explicit PRODUCT_NAME so the test bundle's Swift module name is valid.
     s['PRODUCT_NAME'] = 'IceTests'
-    s['PRODUCT_BUNDLE_IDENTIFIER'] = 'com.dragonapp.ice.IceTests'
+    s['PRODUCT_BUNDLE_IDENTIFIER'] = 'com.maximgolubev.Ice2.IceTests'
     s['SWIFT_VERSION'] = '5.0'
     s['MACOSX_DEPLOYMENT_TARGET'] = '26.0'
     s['GENERATE_INFOPLIST_FILE'] = 'YES'

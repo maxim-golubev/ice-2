@@ -19,7 +19,7 @@ struct UninstallConfigTests {
 
     @Test func wipesTheRunningBundlesDomain() {
         // The running bundle's id, never a hardcoded release id: a debug build
-        // (com.dragonapp.ice.debug) must clean its own domain and saved state, and must
+        // (com.maximgolubev.Ice2.debug) must clean its own domain and saved state, and must
         // never touch the installed release's.
         #expect(config.bundleID == Bundle.main.bundleIdentifier)
         #expect(!config.bundleID.isEmpty)
@@ -63,7 +63,7 @@ struct UninstallConfigTests {
 
     @Test func removesThePerBundleLibraryFolders() {
         // The three folders the shared teardown can't infer, matching the manual `rm -rf` in
-        // README.md and the Homebrew cask's `zap trash:`. Pinned exactly — and in order — so
+        // README.md. Pinned exactly — and in order — so
         // widening or narrowing an unrecoverable delete has to be a deliberate edit here.
         let library = FileManager.default.homeDirectoryForCurrentUser.appending(path: "Library")
         #expect(config.extraCleanupPaths == [
@@ -75,7 +75,7 @@ struct UninstallConfigTests {
 
     @Test func scopesEveryCleanupPathToTheRunningBundle() {
         // The guardrail behind `wipesTheRunningBundlesDomain`: a debug build
-        // (com.dragonapp.ice.debug) must never delete the installed release's caches, so every
+        // (com.maximgolubev.Ice2.debug) must never delete the installed release's caches, so every
         // path has to be built from the *running* bundle id and stay inside ~/Library.
         let library = FileManager.default.homeDirectoryForCurrentUser.appending(path: "Library")
         for url in config.extraCleanupPaths {
@@ -102,34 +102,6 @@ struct UninstallConfigTests {
         // the default already lives outside the ~/Library subtree that bounds every cleanup path.
         let library = FileManager.default.homeDirectoryForCurrentUser.appending(path: "Library")
         #expect(!defaultFolder.path.hasPrefix(library.path + "/"))
-    }
-
-    @Test func clearsHomebrewsReceiptOnlyForTheReleaseBuild() {
-        // Ice 2 ships as the cask `ice-2` (`Casks/ice-2.rb` in teddychan/homebrew-tap), so the
-        // teardown clears brew's receipt too — left behind, it claims the cask is still installed
-        // and `brew install --cask ice-2` refuses for an app that isn't there.
-        //
-        // Gated on the running bundle id for the same reason every path above is: `brew uninstall
-        // --cask` deletes the app *brew* recorded, so a debug build (com.dragonapp.ice.debug),
-        // which brew never installed, would delete the installed release instead of itself.
-        //
-        // The identity is passed in rather than read from the test host, because the host is
-        // always the Debug build: the previous version of this test asked
-        // `Bundle.main.bundleIdentifier` and could therefore only ever exercise the `nil` branch,
-        // asserting as a fact about Ice 2 something that was only a fact about CI.
-        func token(for bundleID: String?) -> String? {
-            IceUninstallConfig.homebrewCask(forBundleID: bundleID)
-        }
-
-        #expect(token(for: "com.dragonapp.ice") == "ice-2")
-        #expect(token(for: "com.dragonapp.ice.debug") == nil, "the debug re-id is why this gate exists")
-        #expect(token(for: "com.dragonapp.clipmenu-2") == nil)
-        #expect(token(for: nil) == nil, "a build that can't state its id must authorise nothing")
-
-        // And that `config` actually asks: without this, hardcoding the token back into the
-        // initializer would leave every case above still passing. Holds in either build — it
-        // pins the wiring, not a configuration-specific answer.
-        #expect(config.homebrewCask == token(for: Bundle.main.bundleIdentifier))
     }
 
     @Test func deletesNothingBeyondTheBundlesOwnFolders() {

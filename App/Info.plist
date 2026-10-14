@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>UTTypeIdentifier</key>
-			<string>com.dragonapp.ice.section-assignment</string>
+			<string>com.maximgolubev.Ice2.section-assignment</string>
 			<key>UTTypeDescription</key>
 			<string>Ice section assignment</string>
 			<key>UTTypeConformsTo</key>
@@ -16,7 +16,7 @@
 		</dict>
 	</array>
 	<!-- The commit this build came from, which DragonKit renders after the build number:
-	     "v2.13.0 (1346) · 2026-Aug-09 12:00:00 UTC". The release workflow passes
+	     "v2.13.0 (1346) · 2026-Aug-09 12:00:00 UTC". Tools/release.sh passes
 	     `git log -1 --format=%cI` as the DRAGON_COMMIT_DATE build setting; mapping it here is
 	     what makes it reach the app, because xcodebuild hands back a SIGNED bundle and editing
 	     Info.plist afterwards would break the signature. Expands to empty in a plain local
@@ -26,9 +26,9 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/teddychan/ice-2/main/docs/ice-2/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/maxim-golubev/ice-2/main/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>p+F/ivF5bAYcmuNuCMNHcRv123A6LHFpCBagFm7Adu8=</string>
+	<string>3E6emSqD/kXcU0yt/aVL05l8k4NpBv0t/GPBbBg526s=</string>
 	<!-- The default for scheduled background update checks. Two jobs: it stops Sparkle
 	     from ever showing its one-time "check for updates automatically?" permission
 	     prompt (what the removed SPUUpdaterDelegate did by returning NO from

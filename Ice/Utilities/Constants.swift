@@ -19,7 +19,7 @@ enum Constants {
     /// The bundle identifier of the installed release, which the local debug build extends with
     /// `.debug`. The *running* build's id is ``bundleIdentifier`` — this one names the other end
     /// of that pair, so use it only to ask which build is which.
-    static let releaseBundleIdentifier = "com.dragonapp.ice"
+    static let releaseBundleIdentifier = "com.maximgolubev.Ice2"
 
     /// Whether `bundleID` belongs to any build of Ice 2 — the installed release or a `.debug`
     /// build running beside it.

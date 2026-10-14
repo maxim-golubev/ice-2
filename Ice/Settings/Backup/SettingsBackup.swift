@@ -146,9 +146,9 @@ enum SettingsBackup {
     /// build deleted every backup the installed Ice 2 had written, and "restore the newest
     /// backup" in the release app could restore debug settings.
     ///
-    /// An unknown id falls to the Debug folder rather than the release one, the same direction
-    /// ``IceUninstallConfig/homebrewCask(forBundleID:)`` fails in: a build that can't state its
-    /// identity is the last one that should be writing into, and pruning, the release's backups.
+    /// An unknown id falls to the Debug folder rather than the release one: a build that can't
+    /// state its identity is the last one that should be writing into, and pruning, the
+    /// release's backups.
     static func defaultFolder(
         home: URL = FileManager.default.homeDirectoryForCurrentUser,
         bundleID: String? = Bundle.main.bundleIdentifier
