@@ -251,12 +251,8 @@
 "app.uninstall.item.state" = "Saved application state";
 "app.updates.notification.body" = "%@ found a newer version.";
 "app.updates.notification.title" = "A new update is available";
-"app.whatsNew.added1" = "Ice 2 runs on macOS 15 Sequoia.";
-"app.whatsNew.added2" = "Russian is now one of the languages in Settings, and error alerts are translated too.";
-"app.whatsNew.fixed1" = "With Caps Lock on, Ice 2 waited indefinitely to move, click and rehide menu bar items. Caps Lock no longer gets in the way.";
-"app.whatsNew.fixed2" = "Quitting Ice 2 after uninstalling it, or before changing any setting, no longer writes an empty backup that would reset your settings if you restored it.";
-"app.whatsNew.fixed3" = "On macOS 27, clicking a menu bar icon such as the clock no longer shows the Hidden section.";
-"app.whatsNew.summary" = "Ice 2 now runs on macOS 15 Sequoia as well as macOS 26 and 27, speaks Russian, and fixes a number of bugs.";
+"app.whatsNew.fixed1" = "On macOS 15, dragging items in the Layout settings moved nothing and ended with a “took too long to respond” alert. Items now move at once, in either direction and between sections.";
+"app.whatsNew.summary" = "A fix for macOS 15: moving menu bar items works.";
 
 // Native section editor
 "app.native.editor.title" = "Organize your menu bar";

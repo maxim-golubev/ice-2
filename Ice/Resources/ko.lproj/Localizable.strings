@@ -234,12 +234,8 @@
 "app.uninstall.item.state" = "저장된 응용 프로그램 상태";
 "app.updates.notification.body" = "%@에서 새 버전을 찾았습니다.";
 "app.updates.notification.title" = "새로운 업데이트가 있습니다";
-"app.whatsNew.added1" = "Ice 2가 macOS 15 Sequoia에서 동작합니다.";
-"app.whatsNew.added2" = "설정의 언어에 러시아어가 추가되었고, 오류 알림도 번역되었습니다.";
-"app.whatsNew.fixed1" = "Caps Lock이 켜져 있으면 Ice 2가 메뉴 막대 항목의 이동, 클릭, 다시 숨기기를 계속 기다렸습니다. 이제 Caps Lock의 영향을 받지 않습니다.";
-"app.whatsNew.fixed2" = "제거한 후나 설정을 하나도 바꾸기 전에 Ice 2를 종료해도 더 이상 빈 백업이 만들어지지 않습니다. 빈 백업을 복원하면 설정이 초기화되었습니다.";
-"app.whatsNew.fixed3" = "macOS 27에서 시계와 같은 메뉴 막대 아이콘을 클릭해도 더 이상 숨김 섹션이 표시되지 않습니다.";
-"app.whatsNew.summary" = "Ice 2가 이제 macOS 26 및 27과 함께 macOS 15 Sequoia에서도 동작하고, 러시아어를 지원하며, 여러 버그를 수정했습니다.";
+"app.whatsNew.fixed1" = "macOS 15에서 레이아웃 설정의 항목을 드래그해도 아무것도 옮겨지지 않고 '응답하는 데 너무 오래 걸렸습니다'라는 알림이 표시되었습니다. 이제 항목이 어느 방향으로든, 섹션 사이에서도 바로 옮겨집니다.";
+"app.whatsNew.summary" = "macOS 15를 위한 수정입니다. 메뉴 막대 항목을 옮길 수 있습니다.";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "macOS 27의 메뉴 막대 섹션";

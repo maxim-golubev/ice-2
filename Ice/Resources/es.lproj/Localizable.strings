@@ -234,12 +234,8 @@
 "app.uninstall.item.state" = "Estado guardado de la aplicación";
 "app.updates.notification.body" = "%@ ha encontrado una versión más reciente.";
 "app.updates.notification.title" = "Hay una nueva actualización disponible";
-"app.whatsNew.added1" = "Ice 2 funciona en macOS 15 Sequoia.";
-"app.whatsNew.added2" = "El ruso es ahora uno de los idiomas de los ajustes, y los avisos de error también están traducidos.";
-"app.whatsNew.fixed1" = "Con el bloqueo de mayúsculas activado, Ice 2 esperaba indefinidamente para mover, pulsar y volver a ocultar elementos de la barra de menús. El bloqueo de mayúsculas ya no interfiere.";
-"app.whatsNew.fixed2" = "Salir de Ice 2 después de desinstalarlo, o antes de cambiar ningún ajuste, ya no crea una copia de seguridad vacía que restablecería tus ajustes si la restauraras.";
-"app.whatsNew.fixed3" = "En macOS 27, hacer clic en un icono de la barra de menús, como el reloj, ya no muestra la sección Oculta.";
-"app.whatsNew.summary" = "Ice 2 ahora funciona en macOS 15 Sequoia además de macOS 26 y 27, habla ruso y corrige varios errores.";
+"app.whatsNew.fixed1" = "En macOS 15, arrastrar elementos en los ajustes de Disposición no movía nada y terminaba con un aviso de que el elemento «tardó demasiado en responder». Ahora los elementos se mueven al instante, en cualquier dirección y entre secciones.";
+"app.whatsNew.summary" = "Una corrección para macOS 15: mover elementos de la barra de menús funciona.";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "Secciones de la barra de menús en macOS 27";

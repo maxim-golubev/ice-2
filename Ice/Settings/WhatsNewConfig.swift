@@ -23,14 +23,8 @@ enum WhatsNewConfig {
                 // The keys are stable across releases (app.whatsNew.summary, .added1, .fixed1, …):
                 // each release overwrites their text in every .strings file rather than adding
                 // version-named keys and abandoning the last release's.
-                ChangeSection(kind: .added, entries: [
-                    L("app.whatsNew.added1"),
-                    L("app.whatsNew.added2"),
-                ]),
                 ChangeSection(kind: .fixed, entries: [
                     L("app.whatsNew.fixed1"),
-                    L("app.whatsNew.fixed2"),
-                    L("app.whatsNew.fixed3"),
                 ]),
             ]
         )

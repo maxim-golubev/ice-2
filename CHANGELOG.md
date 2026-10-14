@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.17.1 - 2026-10-14
+
+### Fixed
+
+- **Moving items works on macOS 15.** Every move timed out: dragging items in Settings ▸ Layout
+  did nothing and ended in a "took too long to respond" alert. The move events were the macOS 26
+  ones, which start the Command-drag on the menu bar; before macOS 26 an item ignores that. The
+  pickup now starts far off screen, as Ice did on macOS 14 and 15, and the drop lands inside the
+  target on the intended side.
+- **One identity per item.** An item could get a second identity when macOS briefly reported no
+  bundle identifier for its app (seen for Control Center at launch).
+
 ## 2.17.0 - 2026-10-14
 
 The first release of this fork (maxim-golubev/ice-2). It has its own bundle id

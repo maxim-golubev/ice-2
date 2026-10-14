@@ -234,12 +234,8 @@
 "app.uninstall.item.state" = "已存储的应用程序状态";
 "app.updates.notification.body" = "%@ 找到了更新的版本。";
 "app.updates.notification.title" = "有新的更新可用";
-"app.whatsNew.added1" = "Ice 2 可以在 macOS 15 Sequoia 上运行。";
-"app.whatsNew.added2" = "“设置”中的语言新增了俄语，错误提示也已翻译。";
-"app.whatsNew.fixed1" = "打开大写锁定时，Ice 2 会无限期等待，迟迟不移动、点按或重新隐藏菜单栏项目。现在大写锁定不再造成影响。";
-"app.whatsNew.fixed2" = "卸载 Ice 2 后或尚未更改任何设置时退出，不会再写入空的备份；恢复这种备份会重置你的设置。";
-"app.whatsNew.fixed3" = "在 macOS 27 上，点按时钟等菜单栏图标不会再显示“隐藏”区段。";
-"app.whatsNew.summary" = "Ice 2 现在除了 macOS 26 和 27，也能在 macOS 15 Sequoia 上运行，新增俄语，并修复了多个错误。";
+"app.whatsNew.fixed1" = "在 macOS 15 上，在布局设置中拖移项目不会移动任何东西，并以“响应时间过长”的提示结束。现在项目会立即移动，向左向右、在区段之间都可以。";
+"app.whatsNew.summary" = "针对 macOS 15 的修正：现在可以移动菜单栏项目了。";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "macOS 27 上的菜单栏区段";
