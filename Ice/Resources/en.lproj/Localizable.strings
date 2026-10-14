@@ -251,8 +251,10 @@
 "app.uninstall.item.state" = "Saved application state";
 "app.updates.notification.body" = "%@ found a newer version.";
 "app.updates.notification.title" = "A new update is available";
-"app.whatsNew.fixed1" = "On macOS 15, dragging items in the Layout settings moved nothing and ended with a “took too long to respond” alert. Items now move at once, in either direction and between sections.";
-"app.whatsNew.summary" = "A fix for macOS 15: moving menu bar items works.";
+"app.whatsNew.fixed1" = "Items dragged one after another in the Layout settings now move in the order they were dropped, and the layout shown always matches the menu bar.";
+"app.whatsNew.fixed2" = "Show on click, hover and scroll work with the Ice 2 icon hidden, in full-screen apps, and with the menu bar set to hide automatically.";
+"app.whatsNew.fixed3" = "Settings no longer loses what you were doing when another window covers it.";
+"app.whatsNew.summary" = "Fixes for the Layout settings and for showing hidden items on macOS 15.";
 
 // Native section editor
 "app.native.editor.title" = "Organize your menu bar";

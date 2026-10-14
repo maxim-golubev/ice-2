@@ -234,8 +234,10 @@
 "app.uninstall.item.state" = "已儲存的應用程式狀態";
 "app.updates.notification.body" = "%@ 找到了更新的版本。";
 "app.updates.notification.title" = "有新的更新可用";
-"app.whatsNew.fixed1" = "在 macOS 15 上，在版面設定中拖移項目不會移動任何東西，並以「回應時間過長」的提示結束。現在項目會立即移動，向左向右、在區段之間都可以。";
-"app.whatsNew.summary" = "針對 macOS 15 的修正：現在可以移動選單列項目了。";
+"app.whatsNew.fixed1" = "在版面設定中接連拖移的項目，現在會依放下的順序移動，顯示的版面也始終與選單列一致。";
+"app.whatsNew.fixed2" = "隱藏 Ice 2 圖像時、在全螢幕 App 中以及選單列設為自動隱藏時，按一下、懸停和捲動顯示都能正常運作。";
+"app.whatsNew.fixed3" = "「設定」被其他視窗遮住時，不會再遺失你正在進行的操作。";
+"app.whatsNew.summary" = "針對 macOS 15 上版面設定和顯示隱藏項目的修正。";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "macOS 27 上的選單列區段";

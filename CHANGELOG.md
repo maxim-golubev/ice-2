@@ -1,5 +1,28 @@
 # Changelog
 
+## 2.17.2 - 2026-10-14
+
+### Fixed
+
+- **Layout drops move in order.** Each drop started its own move and the moves interleaved, so
+  quick drops could land in the wrong order or section. They now queue; saving or applying a
+  profile waits for them.
+- **The layout bars match the menu bar.** After a failed move or a cancelled drag the bars kept
+  showing an arrangement that never happened. They redraw from the cache then, and the cache is
+  refreshed after every layout move.
+- **Show on click, hover and scroll on macOS 15** no longer need the Ice icon shown, and work in
+  full-screen apps and with the menu bar set to hide: the menu bar is found as in Ice 0.11.12.
+- **"Always hide the menu bar" is detected** again (the observer was never installed).
+- **Settings keeps its state** while another window covers it or the user is on another Space.
+- **Profiles and temporarily shown items:** a profile apply drops the return records of shown
+  items and refreshes the lists even when it fails partway; a shown item no longer drops out of
+  the lists when its return target is gone.
+- **Focused app rehide** only acts while auto-rehide is on, and no longer undoes a trigger.
+- **Smaller:** a hotkey recorder that disappears mid-recording re-enables the hotkey; spacers
+  that fail to load are not overwritten; rehiding no longer hides the cursor while waiting for
+  the user; a Command-drag in the menu bar refreshes the lists when it ends; the update
+  notification asks for permission when posted.
+
 ## 2.17.1 - 2026-10-14
 
 ### Fixed

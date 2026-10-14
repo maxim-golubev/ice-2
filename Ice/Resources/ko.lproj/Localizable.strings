@@ -234,8 +234,10 @@
 "app.uninstall.item.state" = "저장된 응용 프로그램 상태";
 "app.updates.notification.body" = "%@에서 새 버전을 찾았습니다.";
 "app.updates.notification.title" = "새로운 업데이트가 있습니다";
-"app.whatsNew.fixed1" = "macOS 15에서 레이아웃 설정의 항목을 드래그해도 아무것도 옮겨지지 않고 '응답하는 데 너무 오래 걸렸습니다'라는 알림이 표시되었습니다. 이제 항목이 어느 방향으로든, 섹션 사이에서도 바로 옮겨집니다.";
-"app.whatsNew.summary" = "macOS 15를 위한 수정입니다. 메뉴 막대 항목을 옮길 수 있습니다.";
+"app.whatsNew.fixed1" = "레이아웃 설정에서 연달아 드래그한 항목이 이제 놓은 순서대로 옮겨지고, 표시되는 레이아웃이 항상 메뉴 막대와 일치합니다.";
+"app.whatsNew.fixed2" = "Ice 2 아이콘을 숨겼을 때, 전체 화면 앱에서, 메뉴 막대를 자동으로 가리도록 설정했을 때에도 클릭, 포인터 올리기, 스크롤로 보기가 작동합니다.";
+"app.whatsNew.fixed3" = "다른 윈도우가 설정을 가려도 하던 작업이 사라지지 않습니다.";
+"app.whatsNew.summary" = "macOS 15의 레이아웃 설정과 숨겨진 항목 표시에 대한 수정입니다.";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "macOS 27의 메뉴 막대 섹션";

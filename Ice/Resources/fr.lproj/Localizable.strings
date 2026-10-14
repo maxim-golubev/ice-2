@@ -234,8 +234,10 @@
 "app.uninstall.item.state" = "État enregistré de l'application";
 "app.updates.notification.body" = "%@ a trouvé une version plus récente.";
 "app.updates.notification.title" = "Une nouvelle mise à jour est disponible";
-"app.whatsNew.fixed1" = "Sous macOS 15, faire glisser des éléments dans les réglages de Disposition ne déplaçait rien et se terminait par une alerte indiquant que l'élément avait mis trop de temps à répondre. Les éléments se déplacent désormais immédiatement, dans les deux sens et d'une section à l'autre.";
-"app.whatsNew.summary" = "Une correction pour macOS 15 : le déplacement des éléments de la barre des menus fonctionne.";
+"app.whatsNew.fixed1" = "Les éléments glissés l'un après l'autre dans les réglages de Disposition se déplacent désormais dans l'ordre où vous les avez déposés, et la disposition affichée correspond toujours à la barre des menus.";
+"app.whatsNew.fixed2" = "L'affichage au clic, au survol et au défilement fonctionne avec l'icône d'Ice 2 masquée, dans les apps en plein écran et avec la barre des menus masquée automatiquement.";
+"app.whatsNew.fixed3" = "Les réglages ne perdent plus ce que vous faisiez lorsqu'une autre fenêtre les recouvre.";
+"app.whatsNew.summary" = "Corrections pour les réglages de Disposition et l'affichage des éléments masqués sous macOS 15.";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "Sections de la barre des menus sous macOS 27";

@@ -234,8 +234,10 @@
 "app.uninstall.item.state" = "Estado guardado de la aplicación";
 "app.updates.notification.body" = "%@ ha encontrado una versión más reciente.";
 "app.updates.notification.title" = "Hay una nueva actualización disponible";
-"app.whatsNew.fixed1" = "En macOS 15, arrastrar elementos en los ajustes de Disposición no movía nada y terminaba con un aviso de que el elemento «tardó demasiado en responder». Ahora los elementos se mueven al instante, en cualquier dirección y entre secciones.";
-"app.whatsNew.summary" = "Una corrección para macOS 15: mover elementos de la barra de menús funciona.";
+"app.whatsNew.fixed1" = "Los elementos que arrastras uno tras otro en los ajustes de Disposición se mueven ahora en el orden en que los soltaste, y la disposición mostrada siempre coincide con la barra de menús.";
+"app.whatsNew.fixed2" = "Mostrar al hacer clic, al pasar el puntero y al desplazar funciona con el icono de Ice 2 oculto, en apps a pantalla completa y con la barra de menús configurada para ocultarse automáticamente.";
+"app.whatsNew.fixed3" = "Los ajustes ya no pierden lo que estabas haciendo cuando otra ventana los cubre.";
+"app.whatsNew.summary" = "Correcciones para los ajustes de Disposición y para mostrar elementos ocultos en macOS 15.";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "Secciones de la barra de menús en macOS 27";

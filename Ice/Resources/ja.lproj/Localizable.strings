@@ -234,8 +234,10 @@
 "app.uninstall.item.state" = "保存されたアプリケーションの状態";
 "app.updates.notification.body" = "%@ が新しいバージョンを見つけました。";
 "app.updates.notification.title" = "新しいアップデートがあります";
-"app.whatsNew.fixed1" = "macOS 15 で、レイアウト設定で項目をドラッグしても何も移動せず、「応答に時間がかかりすぎました」という通知が表示されていました。項目はすぐに、どちらの方向にも、セクション間でも移動するようになりました。";
-"app.whatsNew.summary" = "macOS 15 向けの修正です。メニューバー項目を移動できるようになりました。";
+"app.whatsNew.fixed1" = "レイアウト設定で続けてドラッグした項目が、ドロップした順に移動するようになりました。表示されるレイアウトは常にメニューバーと一致します。";
+"app.whatsNew.fixed2" = "Ice 2 アイコンを非表示にしている場合、フルスクリーンのアプリ、メニューバーを自動的に隠す設定でも、クリック、ポインタ、スクロールでの表示が機能するようになりました。";
+"app.whatsNew.fixed3" = "ほかのウインドウに覆われても、設定で行っていた操作が失われなくなりました。";
+"app.whatsNew.summary" = "macOS 15 でのレイアウト設定と非表示項目の表示に関する修正です。";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "macOS 27 のメニューバーのセクション";

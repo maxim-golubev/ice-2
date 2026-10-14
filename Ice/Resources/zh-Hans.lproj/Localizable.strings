@@ -234,8 +234,10 @@
 "app.uninstall.item.state" = "已存储的应用程序状态";
 "app.updates.notification.body" = "%@ 找到了更新的版本。";
 "app.updates.notification.title" = "有新的更新可用";
-"app.whatsNew.fixed1" = "在 macOS 15 上，在布局设置中拖移项目不会移动任何东西，并以“响应时间过长”的提示结束。现在项目会立即移动，向左向右、在区段之间都可以。";
-"app.whatsNew.summary" = "针对 macOS 15 的修正：现在可以移动菜单栏项目了。";
+"app.whatsNew.fixed1" = "在布局设置中接连拖移的项目，现在会按放下的顺序移动，显示的布局也始终与菜单栏一致。";
+"app.whatsNew.fixed2" = "隐藏 Ice 2 图标时、在全屏 App 中以及菜单栏设为自动隐藏时，点按、悬停和滚动显示都能正常工作。";
+"app.whatsNew.fixed3" = "“设置”被其他窗口遮住时，不会再丢失你正在进行的操作。";
+"app.whatsNew.summary" = "针对 macOS 15 上布局设置和显示隐藏项目的修正。";
 
 /* macOS 27 native menu bar. */
 "app.native.title" = "macOS 27 上的菜单栏区段";

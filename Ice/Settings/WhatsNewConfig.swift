@@ -25,6 +25,8 @@ enum WhatsNewConfig {
                 // version-named keys and abandoning the last release's.
                 ChangeSection(kind: .fixed, entries: [
                     L("app.whatsNew.fixed1"),
+                    L("app.whatsNew.fixed2"),
+                    L("app.whatsNew.fixed3"),
                 ]),
             ]
         )
