@@ -75,49 +75,42 @@ final class LayoutBarPaddingView: NSView {
 
         if let index = arrangedViews.firstIndex(of: draggingSource) {
             if arrangedViews.count == 1 {
-                Task {
-                    // dragging source is the only view in the layout bar, so we
-                    // need to find a target item
+                // The dragging source is the only view in the layout bar, so
+                // the section's divider is the target. Looked up when the move's
+                // turn comes, from the menu bar as the earlier moves left it.
+                let section = container.section
+                move(item: draggingSource.item) {
                     let items = await MenuBarItem.getMenuBarItems(option: .activeSpace)
-                    let targetItem: MenuBarItem? = switch container.section {
+                    let targetItem: MenuBarItem? = switch section {
                     case .visible: nil // visible section always has more than 1 item
                     case .hidden: items.first(matching: .hiddenControlItem)
                     case .alwaysHidden: items.first(matching: .alwaysHiddenControlItem)
                     }
-                    if let targetItem {
-                        move(item: draggingSource.item, to: .leftOfItem(targetItem))
-                    } else {
-                        Logger.default.error("No target item for layout bar drag")
-                    }
+                    return targetItem.map { .leftOfItem($0) }
                 }
             } else if arrangedViews.indices.contains(index + 1) {
                 // we have a view to the right of the dragging source
                 let targetItem = arrangedViews[index + 1].item
-                move(item: draggingSource.item, to: .leftOfItem(targetItem))
+                move(item: draggingSource.item) { .leftOfItem(targetItem) }
             } else if arrangedViews.indices.contains(index - 1) {
                 // we have a view to the left of the dragging source
                 let targetItem = arrangedViews[index - 1].item
-                move(item: draggingSource.item, to: .rightOfItem(targetItem))
+                move(item: draggingSource.item) { .rightOfItem(targetItem) }
             }
         }
 
         return true
     }
 
-    private func move(item: MenuBarItem, to destination: MenuBarItemManager.MoveDestination) {
+    private func move(
+        item: MenuBarItem,
+        to destination: @escaping @MainActor () async -> MenuBarItemManager.MoveDestination?
+    ) {
         guard let appState = container.appState else {
             return
         }
-        Task {
-            try await Task.sleep(for: .milliseconds(25))
-            do {
-                try await appState.itemManager.move(item: item, to: destination)
-                appState.itemManager.removeTemporarilyShownItemFromCache(for: item)
-            } catch {
-                Logger.default.error("Error moving menu bar item: \(error, privacy: .public)")
-                let alert = NSAlert(error: error)
-                alert.runModal()
-            }
+        appState.itemManager.queueLayoutMove(of: item, to: destination) { error in
+            NSAlert(error: error).runModal()
         }
     }
 }

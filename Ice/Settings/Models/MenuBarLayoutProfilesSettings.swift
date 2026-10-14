@@ -79,10 +79,12 @@ final class MenuBarLayoutProfilesSettings: ObservableObject {
                 await appState.menuBarManager.nativeManager.refresh()
                 return appState.menuBarManager.nativeManager.captureLayout()
             }
-            // Refresh first: rearranging items in the layout bar does not
-            // update the item cache on its own, so without this the capture
-            // would read the pre-rearrangement layout (the "Update doesn't
-            // save my changes" bug).
+            // Let the moves still queued from the layout bars finish, then
+            // refresh: rearranging items in the layout bar does not update the
+            // item cache on its own, so without this the capture would read
+            // the pre-rearrangement layout (the "Update doesn't save my
+            // changes" bug).
+            await appState.itemManager.waitForLayoutMoves()
             await appState.itemManager.refreshCacheAfterItemMoves()
             var tagsBySection = [MenuBarSection.Name: [MenuBarItemTag]]()
             for section in MenuBarSection.Name.allCases {
@@ -168,6 +170,7 @@ final class MenuBarLayoutProfilesSettings: ObservableObject {
             appState.settings.advanced.enableAlwaysHiddenSection = true
             try? await Task.sleep(for: .milliseconds(250))
         }
+        await appState.itemManager.waitForLayoutMoves()
         try await appState.itemManager.applyLayoutProfile(profile)
     }
 

@@ -30,6 +30,16 @@ final class MenuBarItemManager: ObservableObject {
     /// Contexts for temporarily shown menu bar items.
     private var temporarilyShownItemContexts = [TemporarilyShownItemContext]()
 
+    /// The latest move asked for in the layout bars. Each new one starts after
+    /// it, so drops made in quick succession move in the order they were made,
+    /// each from the layout the one before it left.
+    private var queuedLayoutMove: Task<Void, Never>?
+
+    /// Asks the layout bars to redraw from the cache as it stands, after a
+    /// drop that did not move anything (a failed move or a cancelled drag),
+    /// which leaves the cache unchanged and so publishes nothing.
+    let layoutResyncRequests = PassthroughSubject<Void, Never>()
+
     /// A timer for rehiding temporarily shown menu bar items.
     private var rehideTimer: Timer?
 
@@ -221,12 +231,22 @@ extension MenuBarItemManager {
                 }
                 return (section, index)
             }
+            // The item's app may have recreated its status window since.
+            for (section, items) in storage {
+                guard let index = items.firstIndex(where: { $0.tag == item.tag }) else {
+                    continue
+                }
+                return (section, index)
+            }
             return nil
         }
 
         /// Inserts the given menu bar item into the cache at the specified
         /// destination.
-        mutating func insert(_ item: MenuBarItem, at destination: MoveDestination) {
+        /// Returns whether the item was inserted: not when the destination's
+        /// target item is not in the cache.
+        @discardableResult
+        mutating func insert(_ item: MenuBarItem, at destination: MoveDestination) -> Bool {
             let targetTag = destination.targetItem.tag
 
             if targetTag == .hiddenControlItem {
@@ -236,7 +256,7 @@ extension MenuBarItemManager {
                 case .rightOfItem:
                     self[.visible].insert(item, at: 0)
                 }
-                return
+                return true
             }
 
             if targetTag == .alwaysHiddenControlItem {
@@ -246,11 +266,11 @@ extension MenuBarItemManager {
                 case .rightOfItem:
                     self[.hidden].insert(item, at: 0)
                 }
-                return
+                return true
             }
 
             guard case (let section, var index)? = address(for: destination.targetItem) else {
-                return
+                return false
             }
 
             if case .rightOfItem = destination {
@@ -259,6 +279,7 @@ extension MenuBarItemManager {
             }
 
             self[section].insert(item, at: index)
+            return true
         }
 
         /// Accesses the items in the given section.
@@ -371,8 +392,22 @@ extension MenuBarItemManager {
             context.shouldClearCachedItemWindowIDs = true
         }
 
-        for (item, destination) in context.temporarilyShownItems {
-            context.cache.insert(item, at: destination)
+        // An item whose return target is another shown item can only go in
+        // once that one has; one whose target has gone is listed as hidden,
+        // where it returns to, rather than dropped from the lists.
+        var pending = context.temporarilyShownItems
+        while !pending.isEmpty {
+            let remaining = pending.filter { item, destination in
+                !context.cache.insert(item, at: destination)
+            }
+            guard remaining.count < pending.count else {
+                for (item, _) in remaining {
+                    logger.warning("No return target cached for \(item.logString, privacy: .public), listing it as hidden")
+                    context.cache[.hidden].append(item)
+                }
+                break
+            }
+            pending = remaining
         }
 
         if context.shouldClearCachedItemWindowIDs {
@@ -1504,15 +1539,27 @@ extension MenuBarItemManager {
             return availableItems.remove(at: index)
         }
 
-        let visibleItems = profile.itemTags(for: .visible).compactMap(takeItem)
-        try await applyVisibleLayout(visibleItems, hiddenControlItem: hiddenControlItem)
+        // The profile now decides where each item goes, so none of them is
+        // to be returned where a temporary show found it.
+        for item in itemCache.managedItems {
+            removeTemporarilyShownItemFromCache(for: item)
+        }
 
-        let hiddenItems = profile.itemTags(for: .hidden).compactMap(takeItem)
-        try await applyHiddenLayout(hiddenItems, controlItem: hiddenControlItem)
+        do {
+            let visibleItems = profile.itemTags(for: .visible).compactMap(takeItem)
+            try await applyVisibleLayout(visibleItems, hiddenControlItem: hiddenControlItem)
 
-        if let alwaysHiddenControlItem {
-            let alwaysHiddenItems = profile.itemTags(for: .alwaysHidden).compactMap(takeItem)
-            try await applyHiddenLayout(alwaysHiddenItems, controlItem: alwaysHiddenControlItem)
+            let hiddenItems = profile.itemTags(for: .hidden).compactMap(takeItem)
+            try await applyHiddenLayout(hiddenItems, controlItem: hiddenControlItem)
+
+            if let alwaysHiddenControlItem {
+                let alwaysHiddenItems = profile.itemTags(for: .alwaysHidden).compactMap(takeItem)
+                try await applyHiddenLayout(alwaysHiddenItems, controlItem: alwaysHiddenControlItem)
+            }
+        } catch {
+            // Show what did move before the failure is reported.
+            await refreshCacheAfterItemMoves()
+            throw error
         }
 
         // Not `cacheItemsRegardless`: the moves above finished microseconds ago,
@@ -1791,11 +1838,9 @@ extension MenuBarItemManager {
 
         logger.debug("Rehiding temporarily shown items")
 
-        MouseHelpers.hideCursor()
-        defer {
-            MouseHelpers.showCursor()
-        }
-
+        // No cursor hiding here: `move` hides it for its own attempts, and
+        // hiding it around the whole loop also hid it while `move` waited for
+        // the user to stop moving the mouse.
         while let context = currentContexts.popLast() {
             // Prefer the precise window identifier, but fall back to the tag if
             // the owning process recreated the item's status window (which gives
@@ -1845,6 +1890,47 @@ extension MenuBarItemManager {
             temporarilyShownItemContexts.append(contentsOf: failedContexts.reversed())
             runRehideTimer(for: 3)
         }
+    }
+
+    /// Moves `item` as dropped in a layout bar, after every earlier layout move.
+    ///
+    /// - Parameters:
+    ///   - item: The dropped item.
+    ///   - destination: Returns where the drop puts the item, or `nil` when it
+    ///     has no target; called when the move's turn comes.
+    ///   - onFailure: Reports a failed move to the user.
+    func queueLayoutMove(
+        of item: MenuBarItem,
+        to destination: @escaping @MainActor () async -> MoveDestination?,
+        onFailure: @escaping @MainActor (Error) -> Void
+    ) {
+        let previous = queuedLayoutMove
+        queuedLayoutMove = Task {
+            await previous?.value
+            guard let destination = await destination() else {
+                logger.error("No target for the layout bar drop of \(item.logString, privacy: .public)")
+                layoutResyncRequests.send()
+                return
+            }
+            do {
+                try await move(item: item, to: destination)
+                removeTemporarilyShownItemFromCache(for: item)
+                // Not awaited: the refresh waits out the post-move pause, which
+                // would hold up the next queued move.
+                Task {
+                    await refreshCacheAfterItemMoves()
+                }
+            } catch {
+                logger.error("Error moving \(item.logString, privacy: .public) from the layout bar: \(error, privacy: .public)")
+                layoutResyncRequests.send()
+                onFailure(error)
+            }
+        }
+    }
+
+    /// Returns once every move queued from the layout bars has finished.
+    func waitForLayoutMoves() async {
+        await queuedLayoutMove?.value
     }
 
     /// Removes a temporarily shown item from the cache, ensuring that

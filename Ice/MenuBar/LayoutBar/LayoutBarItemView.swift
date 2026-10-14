@@ -270,6 +270,13 @@ extension LayoutBarItemView: NSDraggingSource {
             draggingSourceContainer?.canSetArrangedViews = true
             draggingSourceContainer = nil
 
+            // A cancelled drag moves nothing, so no cache update follows to
+            // undo what the bars showed during it, or to deliver the updates
+            // the frozen source ignored meanwhile.
+            if operation.isEmpty {
+                appState?.itemManager.layoutResyncRequests.send()
+            }
+
             // always remove container info at the end of a session
             oldContainerInfo = nil
         }

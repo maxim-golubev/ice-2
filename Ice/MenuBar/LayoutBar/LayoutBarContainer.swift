@@ -81,6 +81,9 @@ final class LayoutBarContainer: NSView {
         if let appState {
             appState.itemManager.$itemCache
                 .removeDuplicates()
+                .merge(with: appState.itemManager.layoutResyncRequests.compactMap { [weak appState] in
+                    appState?.itemManager.itemCache
+                })
                 .sink { [weak self] cache in
                     guard let self else {
                         return
