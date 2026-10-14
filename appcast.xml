@@ -2,5 +2,25 @@
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
         <title>Ice 2</title>
+        <item>
+            <title>2.17.0</title>
+            <pubDate>Wed, 14 Oct 2026 19:13:14 +0000</pubDate>
+            <sparkle:version>1410</sparkle:version>
+            <sparkle:shortVersionString>2.17.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <description><![CDATA[<ul><p>The first release of this fork of Teddy Chan's Ice 2. It installs beside upstream Ice 2 with its own settings, permissions and backups, and updates itself from this repository.</p>
+<li>Runs on macOS 15 Sequoia as well as macOS 26 and 27.</li>
+<li>Russian translation (by @shendrykau), and error alerts are translated.</li>
+<li>Caps Lock no longer stops Ice 2 from moving, clicking and rehiding menu bar items.</li>
+<li>Moves and clicks no longer hang with the cursor hidden when an app does not respond.</li>
+<li>Temporarily shown items go back even when the app next to them quit.</li>
+<li>Quitting no longer writes an empty backup that resets settings when restored; backups live in ~/Documents/Ice 2 Backups.</li>
+<li>Settings that fail to load are no longer overwritten with the defaults.</li>
+<li>Remove menu bar background keeps the app menus and status items visible.</li>
+<li>macOS 27: clicking the clock or another icon no longer shows the Hidden section.</li>
+<p>Releases are signed with an Apple Development certificate and not notarized: on a Mac other than the one that built it, open it once with System Settings &gt; Privacy &amp; Security &gt; Open Anyway.</p></ul>]]></description>
+            <enclosure url="https://github.com/maxim-golubev/ice-2/releases/download/v2.17.0/Ice-2-2.17.0.zip" length="3938059" type="application/octet-stream" sparkle:edSignature="9UV/6qqLuOO1hVQPV5gecsQYeZy89kvRitPcSRF8KfVRo1g4DnKOsZJ0Yr/iunvDF2QUweyP7KRG4eH6FPWJAQ=="/>
+        </item>
     </channel>
 </rss>
